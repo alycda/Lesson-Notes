@@ -1,0 +1,9 @@
+1. Content
+2. Outline
+3. Build out HTML using headers only (so long content doesn't get in the way)
+4. Add classes and IDs as necessary
+5. Validate HTML
+6. Define test suite (Safari 5.X, Firefox 12, Chrome 18, IE 8, Opera 11)
+7. Single-page HTML with external CSS
+8. Mobile First
+9. Media Queries

@@ -1,0 +1,465 @@
+1. Introducing CSS3
+
+-- What is CSS3
+
+1996:CSS1	written to allow authors and users to specify styling independently of the browser
+1998:CSS2	never fully implemented in browsers
+2002:CSS2.1	working draft
+2004:CSS2.1	candidate (for the most part modern browser offer full implementation)
+2005:CSS2.1	back to working draft
+2007:CSS2.1	candidate recommendation again
+
+CSS has been split into modules so an overwhelmingly large document does;t have to be pushed through all at once.
+
+-- Current state
+
+collection of modules that extend 2.1 spec
+
+http://www.w3.org/TR/CSS/
+http://www.w3.org/Style/CSS/current-work.en.html
+
+Working Draft		
+Last Call
+Candidate Recommendation
+Proposed Recommendation
+Published Recommendation
+
+-- Overview of capabilities
+
+
+
+-- Use now
+
+cross browser perfection is impossible
+does using CSS3 enhance your design meaningfully?
+CSS3 should enhance design, not drive it
+progressive enhancement as a way of adding CSS3
+lookout for features that harm your design if they fail
+make sure the extra effort is worth the time investment
+
+Can't use CSS3 in IE6/7
+give IE CSS 2.1 styes as fallback option
+use CSS3 PIE library http://css3pie.com/
+
+-- Detecting support
+
+http://modernizr.com
+
+-- Vendor prefixes
+
+allow browser manufacturer to add support for proprietary or developmental features without causing conflicts with later standardized properties
+
+-moz-		Firefox
+-ms-, -mso-	Explorer
+-khtml-		Konqueror
+-o-		Opera
+-webkit-	Safari
+
+using these features is experimental and subject to change
+stay current with browser support and when prefixes are needed
+http://eCSStender.org
+http://css3generator.com
+
+2. CSS3 selectors
+
+-- Child and sibling selectors
+
+allow for more specific targeting than descendant selectors
+target elements based off of parent to child and sibling to sibling relationships
+
+child
+div > h1	targets any element that is a child of the preceding element
+
+adjacent sibling
+h1 + p		targets and element that is both a sibling and directly preceded by first element
+
+general sibling
+h1 ~ p		targets any element that is both a sibling and preceded by the first element	
+
+first defined in CSS2.1, and widely supported
+
+-- Overview of attribute selectors
+
+CSS2.1	ability to target selectors based on attributes and attribute values
+
+a[href]		targets any element that contains the specified attribute
+a[title=home]	targets any element that possesses the attribute value. Quotation marks are not required unless the value contains punctuation or whitespace
+a[alt~="thumbnail"]	targets an element where the attribute value is a whitespace separated list of words, one of which matches the provided value exactly
+a[hreflang|="en"]	targets an element where the attribute value is either the exact value, or beginning with the value and followed immediately by a "-" (primarily designed to search for language and sub code matches)
+
+CSS3
+
+a[href^="http://"]	targets an element where the attribute value appears at the beginning of the string value [prefix] (regex!) 
+a[href$=".pdf"]		targets an element where the attribute value appears at the end of a string [suffix] (regex!)
+div[id*="main"] 	targets an element where the attribute value appears anywhere within the string value (regex!)
+
+widely supported
+
+-- Using attribute selectors
+
+a[href$=".pdf"] { padding-right: 50px; background: url(pdf-icon.gif) no-repeat right center; }
+
+a[href^="http://"]:hover { padding-right: 20px; background: url(external-link.gif) no-repeat right center; }
+
+-- Pseudo class UI selectors
+
+allows you to target form and application elements based on element state
+
+:enabled	targets any form element in the enabled state (default)
+:disabled	targets any form element in the disabled state
+
+button, command, field set, input, keygen, optgroup, option, select, text area
+
+:checked	targets any form element the can accept checked or selected state and is checked
+
+checkbox, radio
+
+selectors respond to the state, do not set the state explicitly 
+
+input:disabled { background: #e3e3e3; }
+input:disabled + label {color: #aaa;} /*this works, but it requires the label to be defined AFTER the input element in the DOM tree, but can obviously be given a normal look using css*/
+
+supported in all browsers except IE (possible support in IE9)
+
+-- Negation pseudo class selectors
+
+div:not(.caption)	targets any element that does NOT match the argument expression. can daisy chain them with :
+
+img:not([alt*="thumb"]) { … }
+
+supported in all browsers except IE (possible support in IE9) Opera is a little spotty
+
+-- Target pseudo class selectors
+
+div:target	targets any element that is the current target of a fragment identified in the page's URI(http://domain.com/#target)
+
+div:target h3 { padding-left:45px;font-size:180%;color#f00;background:url('star.gif') no-repeat left center; }
+
+can be good for faq pages, anything with named anchors
+
+supported in all browsers except IE (possible support in IE9), Partial support in Opera
+
+-- Structural selectors
+pseudo-class selectors that allow you to target elements on the page based on their relationship within the DOM tree. Can reduce need of non-semantic markup dedicated to styling.
+
+:root		targets the document's root element (HTML)
+p:empty		targets any empty elements of specific type
+li:first-child	(CSS2) targets elements when they are first child of element
+li:last-child	(CSS2) targets elements when they are last child of element
+p:first-of-type	targets elements when they are first element of specific type within a parent
+p:last-of-type	targets elements when they are last element of specific type within a parent
+:only-child	targets elements when they are the only element of a parent
+:only-of-type	targets elements when they are the only element of specific type of a parent
+
+last 2 selectors will produce similar results to last-child or last-of-type selectors, however these selectors have a lower specificity and will be overwritten by other structural selectors
+
+supported in all browsers except IE (possible support in IE9)
+
+http://selectivizr.com (requires existing js framework)
+
+-- Nth child selector syntax
+
+:nth-child(an + b)	basic formula: "n" represent the variable itself or a positive or negative integer that sets the base value. "a" is a grouping value and indicates how few the selector should count through the child elements before selecting another value. "b" is an offset value that determines where the count begins. In the following example, the count would start on the first item (b) and skip every second item (a). This would result in all odd-numbered children being selected
+
+:nth-child(n)	
+:nth-child(even)	
+:nth-child(odd)	
+:nth-last-child(n)	
+:nth-of-type(n)		
+:nth-last-of-type(n)	
+
+targets multiple elements based on argument passed into the selector and selector type.
+
+li:nth-child(2n+1)
+Positive values count down the index in increasing numbers
+Negative values count up (starting with the offset) and move up towards the initial index of 1
+li:nth-child(-2n+8)
+
+li:nth-child(3n-1)
+shifts everything up by offset value
+
+select all items in list except first 3 and last 3:
+li:nth-child(1n+4) (select all, but start at 4)
+li:nth-child(1n+4):li:nth-last-child(1n+4) (start from end, and offset by 4)
+
+reverse:
+li:nth-child(-1n+3),li:nth-last-child(-1n+3)  (comma-separated list, not daisy chain, because of interruption of element targeting)
+
+supported in all browsers except IE (possible support in IE9), Partial support in Opera for :nth-last-of-type(n)
+
+-- First, last and only structural selectors
+
+:first-child
+:first-of-type
+:last-child
+:last-of-type
+:only-child
+:only-of-type
+
+-- Using structural selectors to write more efficient code
+
+class-free styling
+
+3. Working with Color
+
+http://www.w3.org/TR/css3-color/
+
+-- Color formats in CSS3
+
+color:
+background-color:
+border-color:
+
+CSS2.1		hex, RGB, svg keywords
+CSS3		RGBA, HSL, HSLA, CMYK
+
+rgb(0,0,0)	rgb(70%,70%,70%)
+
+hsl(360,100%,100%)
+
+0/360		red
+90		green
+180		cyan
+270		violet	
+
+rgba(255,204,0,.75)
+hsla(0,10%,95%,.5)
+
+cmyk(1,1,1,1) 		(0-1, decimal values)
+
+cmyk is available in CSS3, but its not part of the color module. It is defined in the Generated Content for Paged Media module and is generally intended for print.
+
+http://dev.w3.org/csswg/css3-gcpm/
+
+supported in all browsers except IE (possible support in IE9)
+
+-- Transparency in CSS3
+
+opacity: 0.5		makes entire element (and children) partially transparent, not good for elements containing text
+hsla/rgba		better choice for background colors (won't affect text or children of element)
+
+some browsers are buggy if you don't have the leading 0 for decimal values. supposed to work, but better to be safe than sorry
+
+-IE Filters
+
+http://kimili.com/journal/rgba-hsla-css-generator-for-internet-explorer
+
+-- CSS3 gradients
+
+2 working syntaxes: webkit and w3c standard/firefox. IE only has support in version 10
+
+webkit:
+background-image
+border-image
+list-style-image
+generated content
+
+-webkit-gradient(linear|radial, start, end, color-stop(position, color value), end, color-stop(position, color value))
+
+this has changed!!!
+
+mozilla:
+background-image
+-moz-linear-gradient(posi, tion, color stop%, color stop%)
+-moz-radial-gradient(posi, tion, color stop%, color stop%)
+-moz-repeating-linear-gradient(posi, tion, color stop%, color stop%)
+-moz-repeating-radial-gradient(posi, tion, color stop%, color stop%)
+
+http://dev.w3.org/csswg/css3-images/#gradients
+http://webkit.org/blog/175/introducing-css-gradients
+https://developer.mozilla.org/en/css/-moz-linear-gradient
+
+-- Creating linear gradients
+
+background: #e1d8b9 url(page_background.jpg) repeat-x;
+background: -webkit-gradient(linear, left top, left bottom, color-stop(0.25, rgb(60,107,146)),color-stop(0.65, rgb(226,217,185)));
+background: -moz-linear-gradient(center top, rgb(60,107,146) 25%, rgb(226,217,185) 65%)
+
+browsers will use the last declaration that they understand, IE will use the first, safari/chrome will use the second, firefox the last
+
+-- Creating radial gradients
+
+radial, inner-offsetx inner-offsety, inner-radius, outer-offsetx outer-offsety, outer-radius, from, to
+
+background: -webkit-gradient(radial, 500 80, 50, 500 80, 250, from(rgba(255,255,255,0.85)), to(rgba(255,255,255,0)));
+background: -moz-radial-gradient(500px 80px 0deg, circle cover, rgba(255,255,255,1) 0%, rgba(255,255,255,0) 20%);
+
+4. Typography
+
+-- Working with web fonts
+EOT		Embedded Open Type (only supported by i.e.)
+WOFF		Web Open Font Format
+
+http://typekit.com
+http://fontsquirrel.com
+http://fontslive.com
+http://extensis.com/en/WebINK
+http://kernest.com
+http://code.google.com/webfonts (js)
+
+-- @font-face syntax
+
+@font-face {
+font-family: "My Font";
+src:url("myFont.eot");
+}
+
+highly supported, but different browser use different font formats
+
+@font-face {
+font-family: 'MidoMedium';
+src: url('../_assets/Mido-webfont.eot');
+src: local('☺'), url('../_assets/Mido-webfont.woff')
+format('woff'), url('../_assets/Mido-webfont.ttf')
+format('truetype'), url('../_assets/Mido-webfont.svg#webfontdeSVIjd') format('svg');
+}
+
+-- Using text shadows
+
+text-shadow: xoffset yoffset blur, optional daisy chain; 
+
+can apply multiple shadows, glow would be offsets of 0, embossing is 0 blur
+
+filter: dropshadow(color=#cb7d20, offx=1, offy=0) (looses antialiasing)
+
+supported in all browsers, IE workaround (not worth it though)
+
+-- Creating multi-column text
+
+-webkit-column-count:2;
+-moz-column-count:2;
+column-count:2;
+-webkit-column-width: 300px; /*these suck*/
+-moz-column-width:300px; /*these suck*/
+-webkit-column-gap:2em;
+-moz-column-gap:2em;
+-webkit-column-rule-style: solid;
+-webkit-column-rule-color: #999;
+-webkit-column-rule-width: 1px;
+-moz-column-rule-style: solid;
+-moz-column-rule-color: #999;
+-moz-column-rule-width: 1px;
+
+can't do different column widths
+
+5. Page layout
+
+-- An overview of the flexible box model
+
+http://dev.w3.org/csswg/css3-flexbox/
+
+based off of XUL (XML User Interface Language)
+designed to facilitate the creation of flexible application interfaces 
+
+works by allowing you to determine how child elements should be arranged within parents. In addition to layout, controls exist to assign available space within the parent to its children 
+
+display:box;		div {display:box;}
+display:inline-box;	establish a parent element as a box
+
+
+box-align		controls alignment of elements
+box-direction		controls display order
+box-flex		control sizing of children
+box-flex-group
+box-lines
+box-ordinal-group	allow you to group elements
+box-orient		allows you to choose how child elements are arranged within the parent
+box-pack
+
+not supported in IE (< 10) or Opera, and requires vendor prefixes to use
+
+-- Controlling box orientation
+
+
+
+-- Setting element flexibility
+
+-- Distributing boxes
+
+-- Controlling box alignment
+
+-- Working with box sizing
+
+6. Box model
+
+-- Using border-radius
+-- Creating custom rounded corners
+-- Understanding border images
+-- Using border images
+-- Creating box shadows
+-- CSS3 backgrounds
+-- Controlling background size
+-- Creating multiple background images
+-- Using background origin
+-- Clipping background content
+
+7. Transitions and transforms
+
+-- Overview of 2D transforms
+-- Using 2D transforms
+-- Setting transform origins
+-- Overview of transitions
+-- Animating properties
+-- Using easing in animations
+-- Overview of 3D transforms
+
+8. Media queries
+
+-- Understanding media queries
+-- Strategies for targeting multiple devices
+-- Writing styles for target screen sizes
+-- Deploying styles through media queries
+-- Basing media queries on page orientation
+-- Targeting media queries for iOS devices
+
+
+
+
+
+
+
+
+-CSS For Designers
+CSS Web Site Design
+Creating a CSS Style Guide
+CSS Positioning Best Practices
+CSS For Developers
+Managing CSS in Dreamweaver
+-CSS3 First Look
+Site Navigation with CSS in Dreamweaver
+Creating an Adaptive Website
+CSS: Core Concepts
+CSS: Fundamentals
+CSS: Page Layouts
+HTML5 For Flash Developers
+Create an iPad Web App
+
+
+
+
+
+
+
+
+
+http://www.lynda.com/Web-Interactive-CSS-training/CSS-Page-Layouts/86003-2.html?srchtrk=index%3A143%0Alinktypeid%3A2%0Aq%3Aweb%20design%0Apage%3A10%0As%3Arelease_date%0Asa%3Afalse%0Aproducttypeid%3A2
+
+http://www.lynda.com/CSS-tutorials/for-designers/216-2.html?srchtrk=index%3A56%0Alinktypeid%3A2%0Aq%3Aweb%20design%0Apage%3A4%0As%3Arelevance%0Asa%3Atrue%0Aproducttypeid%3A2
+
+http://www.lynda.com/CSS-tutorials/positioning-best-practices/47543-2.html?srchtrk=index%3A54%0Alinktypeid%3A2%0Aq%3Aweb%20design%0Apage%3A4%0As%3Arelevance%0Asa%3Atrue%0Aproducttypeid%3A2
+
+http://www.lynda.com/Dreamweaver-CS5-tutorials/Layouts-with-CSS-in-Dreamweaver/80302-2.html?srchtrk=index%3A21%0Alinktypeid%3A2%0Aq%3Ahtml5%0Apage%3A2%0As%3Arelevance%0Asa%3Atrue%0Aproducttypeid%3A2
+
+http://www.lynda.com/Web-Interactive-CSS-tutorials/CSS-Styling-Forms/90368-2.html?srchtrk=index%3A24%0Alinktypeid%3A2%0Aq%3Ahtml5%0Apage%3A2%0As%3Arelevance%0Asa%3Atrue%0Aproducttypeid%3A2
+
+http://www.lynda.com/Web-Interactive-CSS-tutorials/CSS-Fundamentals/80436-2.html?srchtrk=index%3A36%0Alinktypeid%3A2%0Aq%3Ahtml5%0Apage%3A3%0As%3Arelevance%0Asa%3Atrue%0Aproducttypeid%3A2
+
+http://www.lynda.com/Web-Design-tutorials/web-fonts-first-look/73564-2.html?srchtrk=index%3A37%0Alinktypeid%3A2%0Aq%3Ahtml5%0Apage%3A3%0As%3Arelevance%0Asa%3Atrue%0Aproducttypeid%3A2
+
+http://www.lynda.com/Web-Interactive-CSS-training/CSS-Page-Layouts/86003-2.html?srchtrk=index%3A50%0Alinktypeid%3A2%0Aq%3Ahtml5%0Apage%3A4%0As%3Arelevance%0Asa%3Atrue%0Aproducttypeid%3A2
+
+http://www.lynda.com/Dreamweaver-CS5-tutorials/managing-css/63836-2.html?srchtrk=index%3A52%0Alinktypeid%3A2%0Aq%3Ahtml5%0Apage%3A4%0As%3Arelevance%0Asa%3Atrue%0Aproducttypeid%3A2
+
+http://www.lynda.com/CSS-tutorials/creating-a-style-guide-hands-on-training/758-2.html?srchtrk=index%3A59%0Alinktypeid%3A2%0Aq%3Ahtml5%0Apage%3A4%0As%3Arelevance%0Asa%3Atrue%0Aproducttypeid%3A2
+
+http://www.lynda.com/CSS-tutorials/web-site-design/279-2.html?srchtrk=index%3A11%0Alinktypeid%3A2%0Aq%3Aweb%20design%0Apage%3A1%0As%3Arelevance%0Asa%3Atrue%0Aproducttypeid%3A2

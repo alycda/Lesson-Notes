@@ -1,0 +1,186 @@
+what is MySQL?
+database management system (not an application)
+--database server, manages CRUD operations
+--client libraries (in order to interact with server)
+
+MySQL is located at:
+/usr/local/Cellar/mysql/5.5.25
+
+###Start MySQL
+mysql.server start | stop
+
+To launch on startup:
+* if this is your first install:
+    mkdir -p ~/Library/LaunchAgents
+    cp /usr/local/Cellar/mysql/5.5.25/homebrew.mxcl.mysql.plist ~/Library/LaunchAgents/
+    launchctl load -w ~/Library/LaunchAgents/homebrew.mxcl.mysql.plist
+
+* if this is an upgrade and you already have the homebrew.mxcl.mysql.plist loaded:
+    launchctl unload -w ~/Library/LaunchAgents/homebrew.mxcl.mysql.plist
+    cp /usr/local/Cellar/mysql/5.5.25/homebrew.mxcl.mysql.plist ~/Library/LaunchAgents/
+    launchctl load -w ~/Library/LaunchAgents/homebrew.mxcl.mysql.plist
+
+You may also need to edit the plist to use the correct "UserName".
+
+To start mysqld at boot time you have to copy
+support-files/mysql.server to the right place for your system
+
+###Log in
+mysql -u web -p		optional: add database_name to command to auto-select that database
+
+admin:^73#2Mh.F
+web:{88e}=4aM
+
+###Create Users
+CREATE USER 'user'@'hostname' identified by 'password';
+
+#Grant Privileges
+GRANT SELECT, INSERT, UPDATE, DELETE, CREATE, DROP, FILE, INDEX, ALTER, CREATE TEMPORARY TABLES, CREATE VIEW, SHOW VIEW, CREATE ROUTINE, ALTER ROUTINE, EXECUTE ON *.* TO web@localhost;
+--or--
+GRANT ALL ON *.* TO admin@localhost WITH GRANT OPTION;
+
+FLUSH PRIVILEGES;
+
+#Assign Password
+UPDATE mysql.user SET PASSWORD = PASSWORD('password') WHERE User = 'username';
+
+###Import Data
+<	pipe
+mysql -u admin -p < file_name.sql
+
+###Databases
+CREATE DATABASE database_name;
+
+SHOW DATABASES;
+
+USE database_name;
+
+DROP DATABASE database_name
+
+###Tables
+USE database_name		must first select (or create new) database to store table
+
+CREATE TABLE table_name (
+  id INTEGER NOT NULL AUTO_INCREMENT PRIMARY KEY,
+  string_column_name VARCHAR(255),
+  num_column_name CHAR(10)
+);
+
+SHOW TABLES;
+
+INSERT INTO table_name ( column_name ) VALUES ( 'cell_data' );
+
+SELECT * FROM table_name;
+
+SELECT column_1_name, column_2_name, FROM table_name;
+
+DESCRIBE
+
+DROP table_name
+
+###Data Types
+Numeric
+  int		Integer			Whole numbers (no decimal or fraction
+  float		Floating point		Real numbers (use for math and science) - sacrifice accuracy for precision
+  decimal	Fixed point		Decimal numbers with fixed precision - limit precision for accuracy
+String
+  varchar	variable number of characters up to number specified
+  char		specific number of characters
+  binary	non-textual data
+Large storage
+  blob		Binary large object (up to 64K bytes) - like images
+  tinyblob	up to 256 bytes(characters)
+  mediumblob	up to 16M bytes
+  longblob	up to 4G bytes
+  text		Textual data (up to 64K bytes) - like articles or webpages
+  tiny text	up to 256 bytes
+  medium text	up to 16M bytes
+  long text	up to 4G bytes		
+Date & time
+  date		dates, range: 1000-9999
+  time		times, range:± 839:59:59
+  datetime	for date/time combinations
+  timestamp	for event logging, automatically filled when row is entered
+Bit values (logical values & flags)
+  bit		b'11110000' (force number type by adding 0 ( column_x_name + 0, ) when selecting column from table
+
+no boolean type in MySQL
+bool is alias for tinyint
+true:0
+false:0
+bit is excellent for boolean values
+
+Enumeration for mnemonic values
+  enum		limited number of possible values, values are stored as 1 byte each. silently fail if value given isn't an option
+  set		multiple values in cell (with limited number of possibilities)
+
+###Functions
+String
+  CONCAT('string1', 'string2')			concatenates two or more literal strings
+  CONCAT_WS( ':', 'string1', 'string2' )	concatenates strings with specified separator
+  LPAD(string/column_x_name, XX, ' ')			column name, number of characters in final string, character to pad with
+  RPAD(string/column_x_name, XX, ' ')			same as above, but adds padding to right
+
+Numeric
+  DIV						divides, & results in whole number
+  MOD						divides and displays remainder
+  convert(input,from,to )			base 2,8,10,16,etc
+  HEX(input)					base 16
+  BIN(input)					binary values
+  OCT(input)					base 8
+  CRC32('')					checksum, unique number
+  DEGREES(PI())
+  RADIANS(input)					
+  FORMAT(input,precision)			adds commas & decimals based on localization
+  POW(input,power)				
+  RAND()					optionally accepts a number in order to 'seed'
+
+Date & Time
+  NOW()
+  CURDATE()
+  CURTIME()
+  UTC_TIMESTAMP()
+  TIME()
+  DATEDIFF()
+  DATE_FORMAT()					%W %d %M %Y %T
+
+@@TIME_ZONE
+
+Aggregate
+  COUNT()			optionally accepts DISTINCT keyword, followed by column_name
+  GROUPT_CONCAT(column_name)	optionally accepts ORDER BY and/or SEPARATOR ' / ' (can be anything)
+
+Full text search
+  FULLTEXT(column_1_name, column_2,name)	accepts one or more table names as type of index(es)
+  WHERE MATCH (column_1_name, column_2_name) AGAINST ('search term(s)')		will not return results that apply to more than 50% of rows (natural language search)
+  WHERE MATCH (…) AGAINST ('+search +term' IN BOOLEAN MODE)		terms with + must exist
+  WHERE MATCH (…) AGAINST ('+search -term' IN BOOLEAN MODE)		terms with - must NOT exist
+WITH QUERY EXPANSION		two passes through database, on second search looks for words that are common to words found in matched results
+
+
+DESCRIBE
+STATUS
+
+
+###PHP Interfaces
+
+##mysqli
+
+#Prepared statements 
+
+#Fetching
+
+#Affected
+
+##mysql(PDO)
+
+#pdo init
+
+#pdo prepared
+
+#pdo fetch
+
+#pdo autoinsert
+
+Error Logs:
+/private/var/log/mysql/ (need to create this)

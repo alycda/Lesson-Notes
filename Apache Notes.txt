@@ -1,0 +1,115 @@
+what is Apache?
+API
+
+Apache is located at:
+/private/etc/apache2
+
+httpd.conf		main config file
+
+/Applications/MAMP/conf/apache/httpd.conf (MAMP)
+/etc/apache2/httpd.conf (MacOSX)
+/usr/local/pem/vhosts/XXXXXX/webspace/conf/httpd.conf (domain.com)
+
+ServerRoot 
+1. enable PHP by uncommenting the following line:
+   #LoadModule php5_module libexec/apache2/libphp5.so
+2. ServerAdmin webmaster@alyssa-davis.com			#need to create this email
+3. ServerName
+4. Document Root						#created alias 
+5. <Directory "<DocumentRoot>">
+	Options		
+	AllowOverride All
+6. AccessFileName .htaccess
+7. LogLevel debug|info|notice|warn|error|crit|alert|emerg
+8. Alias /favicon.ico "/Users/Alyda/Sites/favicon.ico"
+9. Alias /phpMyAdmin "/Applications/MAMP/bin/phpMyAdmin"
+	<Directory "/Applications/MAMP/bin/phpMyAdmin">
+                Options Indexes MultiViews
+                AllowOverride None
+                Order allow,deny
+                Allow from all
+        </Directory>
+10. ErrorDocument 500 "The server made a boo boo."
+    ErrorDocument 404 /missing.html
+    ErrorDocument 404 "/cgi-bin/missing_handler.pl"
+    ErrorDocument 402 http://www.example.com/subscription_info.html
+11. ServerTokens Prod
+12. ServerSignature Off
+13. Include /private/etc/apache2/extra/httpd-vhosts.conf
+
+
+###Start Apache
+System Preferences > Sharing Web Sharing
+sudo /usr/sbin/httpd -k start -D WEBSHARING_ON
+
+sudo apachectl restart|graceful
+
+sudo apachectl -k start | (graceful-)stop | restart
+sudo /Applications/MAMP/Library/bin/apachectl -k start (only works when MAMP is running)
+
+Error Logs:
+/private/var/log/apache2/error_log
+
+ssh root@domain.com
+ssh root@localhost -p80
+
+httpd 	-v	output apache version
+	-l	output compiled modules (this does not include dynamically loaded modules)
+	-M	output static and dynamic load modules
+	-V	version and build parameters
+ 	-t	If you made any changes to httpd.conf, check httpd syntax for error using the -t option:
+	-k	start|restart|graceful|graceful-stop|stop
+	-R
+	-d
+	-f
+	-C
+	-c
+	-D
+	-h
+	-I
+	-L
+	-S	verify virtual hosts config
+	-t
+	-x
+	-v
+
+\		at end of line means line continues onto following line
+
+need to edit both: the first file directs server requests to localhosts, the second points to the root folder
+
+hosts			/etc/hosts
+httpd-vhosts.conf	/private/etc/apache2/extra/httpd-vhosts.conf	
+
+.htaccess		local config file (per-directory basis). Must be uploaded in ASCII not binary
+	
+ErrorDocument		use a cgi script to record errors in database in order to resolve them (The CGI Resource Index and HotScripts.com)
+
+http://www.htaccess-guide.com/
+http://www.askapache.com/htaccess/ultimate-htaccess-file-sample.html
+http://www.askapache.com/htaccess/htaccess.html
+http://perishablepress.com/stupid-htaccess-tricks/
+
+mod_rewrite
+http://www.askapache.com/htaccess/modrewrite-tips-tricks.html
+http://httpd.apache.org/docs/current/mod/mod_rewrite.html
+http://httpd.apache.org/docs/2.0/misc/rewriteguide.html
+http://www.addedbytes.com/for-beginners/url-rewriting-for-beginners/
+http://www.cheatography.com/davechild/cheat-sheets/mod-rewrite/
+http://www.cheatography.com/davechild/cheat-sheets/regular-expressions/
+http://forum.modrewrite.com/
+
+caching
+http://www.askapache.com/hacking/speed-site-caching-cache-control.html
+
+security
+http://www.askapache.com/htaccess/apache-authentication-in-htaccess.html
+http://www.askapache.com/htaccess/security-with-htaccess.html
+http://www.symantec.com/connect/articles/hardening-htaccess-part-one
+http://www.symantec.com/connect/articles/hardening-htaccess-part-two
+http://www.symantec.com/connect/articles/hardening-htaccess-part-three
+http://www.askapache.com/htaccess/modsecurity-htaccess-tricks.html
+
+Chmod your 
+.htpasswd files 640, 
+.htaccess files 644. (604??)
+Chmod php files 600, chmod files that you really dont want people to see as 400 (wp-config.php, config.php) and NEVER chmod 777, if something requires write access use 766 first then 775

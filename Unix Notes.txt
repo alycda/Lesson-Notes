@@ -1,0 +1,418 @@
+--Shortcuts
+CMD+k: 			clear window
+up/down arrows: 	Review previous commands (only works in proper shell, changing shells will not allow you to use command from different shell
+CTRL+a:			Move cursor to start of line
+CTRL+e:			Move cursor to end of line
+OPT+click:		Move cursor to click point (Terminal only)
+TAB:			Try to complete command or file name
+TAB+TAB:		Show list of possible matches (when tab does't complete)
+CMD+~:			Cycle between Terminal windows (Terminal Only)
+
+----Command structure
+command		options		arguments
+command is always a single word
+can chain commands with with semi-colon ;
+		options start with -, will be a single letter
+		can also start with --, will be a keyword
+		multiple options can be combined
+		sometimes options need argument of their own, easy way to do this is eliminate space between option/argument
+				arguments are string
+				can have multiple arguments, separated by spaces
+
+--Kernel & Shells
+Kernel is core OS, Mach Kernel (inside Darwin)
+		Shell is outer layer of OS, interacts with user, sends request to kernel
+		Max OSX uses bash shell
+			sh: Thompson/Bourne Shell
+			csh: C Shell
+			tsch: Tabbed C Shell
+			ksh: Korn Shell
+			bash: Bourne-Again Shell
+			zsh: Z Shell
+			
+Environment variable: $ALL CAPS
+$SHELL
+
+current shell: $0
+to change shells, just type shell name, however, switching shells removes command history (even though they are still visible)
+exit	leave nested shell
+
+--Man(ual) pages
+:			next page, hit SPACE BAR or "f"/"b" to go forward/back
+q			exit/quit
+man -h / man -help	what can you do with specified command (in this case manual)		
+man -k / apropos	lookup string in whatis database
+what is			does not support keyword search, must type full name
+
+----Filesystem 
+pwd		present working directory (usually starts at /Users/Alyda
+\		backslash (windows)
+/		forwardslash (unix/max)
+ls		list contents of pwd
+d		directory
+-		file
+l		symbolic link / alias
+-l		vertical list
+-a		include hidden files
+-h		human-readable size formats
+~		user directory
+cd -		toggles between current and previous directories
+
+--Files
+max 255 character names
+avoid /\ * & ? $ | ^ ~ < > and most other symbols so as not to confuse the filesystem or commands/options
+be careful starting a filename with . or -, just use lowercase
+underscores are better than spaces, escape with \ or use quotes around names with spaces
+use file endings, not required but helpful
+
+touch		teaches out and modifies file's last access time, otherwise creates the file for you
+vi/vim		visual editing mode, fingers rarely leave keyboard home row
+pico/nano	pico has been replaced by nano	http://www.nano-editor.org
+
+^		CTRL
+
+cat		Concatenate- intended to combine files, but can also just output content to window
+more		Paginated output (doesn't move backwards)
+less		Backwards scrolling
+g		start of document
+G		end of document
+head 		display lines from beginning of file
+tail		display lines from end of file
+	-f	follow new updates from end of file
+
+mkdir		create new directory
+-p		create parent directories as needed
+-v		verbose
+
+mv		move files/folders between directories. if directory exists, folder will be put inside, otherwise will be renamed. can move and rename at same time, or just rename in place
+cp		copy
+rm		delete immediately (no trash option)
+
+-n 		do not overwrite file
+-f 		force overwriting (default)
+-i		interactive overwriting, "ask me"
+-R		recursive (for copying directories, or for removing nested directories)
+
+rmdir		remove (empty) directory
+
+ln		hard link (will not break if file is moved, like finder; this is more of a copy, if the original is removed, the hard link still contains the info, it is exactly equivalent to file
+-s		symbolic link (reference path to file, like alias; will break if file is moved/deleted)
+
+--Searching
+find	path	expression
+search
+	string	
+		-name		pattern
+*				zero or more characters (glob)
+?				any one character
+[]				any character within the brackets
+		-size
+		-type
+		-user
+		-and		additional expression
+		-not		not equaling
+		-path		same as name
+
+----Users/Groups/Permissions
+whoami		current logged in user
+
+chown user:group file/directory		change ownership of file or directory. us -R to include subdirectories/files
+sudo		uses admin privileges
+
+chmod		mode		filename
+change permissions
+		alpha notation:
+		ugo=rwx		change all to rwx (777)	
+		u=rwx,g=rw,o=r	change specific options
+		ug+w		simply add write options to user/group
+		o-w		remove write options from other
+		a=rwx		shortcut for ugo	
+
+		octal notation:
+		r=4
+		w=2
+		x=1
+
+sudo		Substitute User and DO	
+-k		expire saved password
+-u		specify which user to sub
+
+----Commands
+commands are shortcuts to files, you can use whereis or which to locate them or whatis to define them
+common options: -v, --version, --help
+exit: q,x, CTRL+x, or ESC / force quit: CTRL + c / or close window (process may keep running)
+;	link commands
+PATH=	list of directories to look for commands, changing this path only lasts for the current session (until the window is closed)
+
+system commands:
+date
+uptime
+users
+who	(one in finder[console], one or more in terminal)
+uname -mnrsvp or -ap
+hostname
+domainname
+
+df	disk free space
+-h	humanize
+-H	base 10
+du	disk usage (space taken up by file blocks, not the size itself)
+
+ps	processes (snapshot)
+a	all processes
+u	user
+x	background
+top	top processes (updates)
+-n	number
+-o	sort order
+-s	refresh rate
+-U	limit to a specified user
+
+--stop processes:
+CTRL+c			current process we have control of
+kill process_id		kill process remotely (if possible)
+kill -9 process_id	forcibly kill
+
+--text file helpers
+wc	word count
+sort	sort lines
+uniq	filter in/out repeated lines
+
+--utility programs
+cal/ncal		calendar / vertical
+		-y	full year
+bc			bench calculator (arbitrary precision) - 'quit' to exit
+scale			how many decimal points you want
+expr			requires spaces between numbers and operators
+		1+1	won't work
+		1 + 1	does work
+		1122 * 3344	won't work
+		1122 \* 3344	does work
+units			unit conversion - CTRL+c to quit 
+			opens a program, but can accept 2 strings and return the result to unix
+
+history			shows current session commands as well as previous session commands (which are only saved on quit)
+! + command number	executes first command (shortcut)
+!- number of commands 	goes back to command relative to where you are
+! + search term		looks for command beginning with search term 
+!!			references previous command
+!$			references arguments from previous command
+	-d		delete line from history, numbers are not absolute
+	-c		clear all history (or remove bash history file)
+
+--input / output
+>		direct output of command to file rather than screen (destructive overwrite)
+>>		append rather than overwrite
+<		use as input, some commands already do this, must always be a file
+|		can redirect 1 command into another (not a file)
+/dev/null	suppress output by sending to "the black hole", no memory, nothing
+
+----working environment
+custom login
+
+
+alias	ll='ls -la'	creates or lists all custom command aliases (only last current login)
+			write custom commands to a file that can be included in login file
+			can redefine commands to add options
+			can autocorrect as well
+unalias	ll		removes custom alias
+
+source			runs a specified file (can be useful when making changes to included login file, without need to restart)
+
+MYNAME='Alyssa Davis'	set variable (only lasts current session)
+$MYNAME			retrieve varable
+export MYNAME='Alyda'	makes variables available to child programs
+export PATH="/usr/local/bin:$PATH"
+export HISTTIMEFORMAT='%b %d %I:%M $p'	# using strftime format
+export HISTCONTROL=ignoreboth		# ignored ups:ignorespace		don't record duplicates or commands that begin with a space (useful for commands that contain a password you don't want stored in your history file in plaintext)
+export HISTIGNORE="history:pwd:exit:df:ls" 		
+
+PS1="what now? "	prompt variable (will only last current session) (lookup "command prompt formatting codes")
+
+----Expressions
+
+--GREP
+
+grep		query		file/directory		returns entire line, case-sensitive search
+	-i						case insensitive search
+	-w						whole word match (not partial)
+	-v						inversion of search (lines that do not match)
+	-n						line numbers
+	-c						count of returned matched
+	-R						recursive
+	-h						suppress file name
+	-l						suppress results, show only file name
+	-L						inversion of search (files that don't match)
+	--color						highlight
+	-E						use extended set of
+
+ps aux | grep Terminal
+
+--RegEx
+should always put inside quotes
+
+.	wildcard character								gre.t
+[]	match any character within brackets						gr[ea]y
+[^]	negative character set, any one character not listed within brackets		[^aeiou]
+-	range indicator (when inside a character set)					[A-Za-z0-9]
+*	preceding element can occur 0 or more times					file_*name		(references the _)
++	preceding element can occur 1 or more times					gro+ve			
+?	preceding element can occur 0 or 1 time						colou?r
+|	Alternation, OR operator							(jpg|gif|png)	
+^	start of line anchor								^Hello
+$	end of line anchor								World$
+\	escape the next character							image\.jpg 		(otherwise would reference wildcard)
+\d	any digit									20\d\d-06-09
+\D	anything not a digit								^\D+			(begins with one or more alphanumeric chars)
+\w	any word character (alphanumeric + underscore)					\w+_export\.		
+\W	anything not a word character							\w+\W\w+		(1 or more letters preceding 1 digit…) 
+\s	whitespace (space, tab ,line break)						\w+\s\w+
+
+some commands are basic, some are extended (-E option uses extended set)
+
+[:alpha:]	alphabetic characters
+[:digit:]	numeric characters
+[:alnum:]	alphanumeric
+[:lower:]	lower-case
+[:upper:]	upper-case
+[:punct:]	punctuation
+[:space:]	space, tab, new line
+[:blank:]	space, tab
+[:print:]	printable characters, including space
+[:graph:]	printable characters, excluding space
+[:cntrl:]	control characters (non-printing)
+[:xdigit:]	hexadecimal characters (0-9, A-F, a-f)
+
+above reference a SINGLE character, not character set, must place within another set of [] to reference character SET
+must ALWAYS place within double square brackets
+
+--convert (single character replace)
+tr		translates single letters NOT words. if replacement set is smaller, last item repeats, if replacement set is bigger, unmatched characters are ignored
+
+echo 'a,b,c' | tr ',' '-'
+echo '32651145263' | tr '123456' 'EBGDAE'
+echo 'This is ROT-13 encrypted.' | tr 'A-Za-z' 'N-ZA-Mn-za-m'
+
+useful for converting from uppercase to lowercase, removing accented characters
+
+	-d	delete characters in listed set
+	-s	squeeze repeats in listed set
+	-c	use complementary set
+	-dc	delete characters not listed in set
+	-sc	squeeze characters not listed in set
+
+echo "abc1233deee567f" | tr -d		# "abcdeeef"
+echo "abc1233deee567f" | tr -dc		# "1233567"
+
+echo "abc1233deee567f" | tr -s		# "abc123deee567f"
+echo "abc1233deee567f" | tr -sc		# "abc1233de567f"
+
+echo "abc1233deee567f" | tr -ds		# "abcdef"
+echo "abc1233deee567f" | tr -dsc	# "1234567"
+
+useful for removing non printable characters from a file, removing extra carriage return an end of file character from windows files, or removing double spaces from file. 
+
+--Stream Editor (word replace)
+
+sed 's/a/b'	translates single letters or words. does not search globally, only changes first occurrence (per line, each line is a stream). can use : or | as delimiter instead of / 
+see 's/a/b/g'	the g means, globally, will replace all occurrences 
+		can use different delimiter (: or |) - useful if your input contains / otherwise you would have to escape with \
+		can pass second argument (file)
+		-e	multiple commands
+		-f	use a file of commands (instead of retyping)
+		-E	use extended regex
+
+--back references
+#
+#
+#
+#
+#
+
+--cut
+
+cut
+	-c	characters
+	-b	bytes (in english each character takes up one byte, so the above is the same)
+	-f	fields
+	-d	specify delimiter
+
+--comparing files
+
+diff
+	-i	case insensitive
+	-b	ignore changes to blank characters
+	-w	ignore whitespace
+	-B	ignore blank lines
+	-r	recursively compare directories
+	-s	show identical files
+
+	-c	copied context
+	-u	unified context 
+	-y	side-by side
+	-q	only whether files actually differ (not results)
+
+xargs		passes input as argument lists to utility commands
+	-t	shows you what it's actually doing
+	-n	limit arguments on each loop 
+	-I	placeholder
+	-0
+
+echo 'lorem_ipsum.txt us_presidents.csv' | xargs -t wc		#same as wc lorem_ipsum.txt us_presidents.csv
+
+usage example for xargs:
+
+get list of projects assigned to me (may have to make a text file of this manually, maybe not)
+automatically create folders for each project, with at least the _PSD subfolder
+
+----Power User
+
+http://www.askapache.com/linux/elite-log-file-scrolling-color-syntax.html
+
+open						will open given path from terminal into finder or default application
+pbcopy						copy to clipboard (mac only)
+pbpaste						paste from clipboard (mac only)
+		-pboard				specify which clipboard to use
+screencapture			filename
+		-i				interactive (crosshairs)
+		-m				main monitor only
+		-C				show cursor
+		-t				format (png, pdf, jpg, tiff)
+		-T				delay in seconds
+		-P				open file with preview
+		-M				open file in Mail
+		c				capture to clipboard
+shutdown					shutdown, reboot, sleep (requires sudo)
+		-h				halt at specified time
+		-r				reboot at specified time
+		-s				sleep at specified time
+			now
+			+minutes
+			yymmddhhmm
+sleep						more like a timer
+say						text to speech (mac only) useful for alerting you when a command has completed
+		-v				specify voice
+		-f				input from file
+		CTRL+c				stop 
+		-o				output to .AIFF file
+mdfind						searches metadata of file (more like spotlight search)
+		-onlyin				specify search directory (instead of entire hard drive)
+		-interpret
+		-0				print null / do not print (useful for passing into xargs)
+				query		words to search for, can include - to 'not match'
+mdls						metadata listing (time requires single quotes)
+			$time.today
+			$time.now(-36000)
+			$time.this_week
+			$time.iso(2010-01-01 12:45:00 -0800)	
+osascript					run applescript (wants to open file .scpt)
+		-e				give instructions directly
+defaults					manages default settings (.plist files- mac only)
+		read	<domain>   <key>
+		write	<domain>   <key>   <value>
+
+defaults write com.apple.finder ShowAllFiles true/false		show "." files in Finder
+sudo defaults write com.apple.loginwindow DesktopPicture "/Users/Alyda/Dropbox/Photos/Desktop Pictures/Makua Rothman.jpg"
+
+### note about bash in Mac OSX, does not understand \t as tab character, must type CTRL+v+TAB (not CMD) = literal next character
+### Mac has 4 clipboards: general, font, find, ruler

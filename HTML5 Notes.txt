@@ -1,0 +1,1201 @@
+1. Introducing HTML5
+
+-- Prior standards
+
+1995: HTML 2.0		Formalized syntax and many rules that were already being implemented by browsers
+1997: HTML 3.2		Largely ignored by browser manufacturers who began to implement their own tags
+1998: Web standards project	Pushed for standards adoption, added weight to W3C recommendations and promoted standards-based browsers
+1999: HTML 4.0		Stabilized the syntax and structure of HTML, became the standard for web authoring
+2000: XHTML 1.0		Designed to move HTML towards XML DTDs often caused it to render as HTML
+2000->2004: Growth of the web	High bandwidth connections increase, as does demand for multimedia and applications driven by technologies such as Flash and AJAX. Work on XHTML 2.0 begins (not backwards compatible, never really took off or finished)
+2004:WHATWG		Begins what will become HTML5
+2007:W3C 		Charters HTML5 (backwards compatible), richer user experiences
+2010:			Public interest in HTML5 grows
+
+-- Why HTML5?
+
+HTML5 is EVOlution, not revolution
+
+Error handling was left up to user agents
+XHTML 2.0 featured draconian error handling (pages would stop rendering if error was found)
+
+HTML5 features detailed algorithms for parsing errors. This is controversial some believe it will create a level of consistency, some believe it should be left up to the user agents.
+
+New semantic elements will give pages additional structure and meaning.
+Built in APIs
+Added support for audio and video (reducing the need for plugins)
+
+-- Timeline
+
+2004: WHATWG
+2005: Web applications 1.0 Working Draft published
+2007: HTML5 Working Draft
+2011: Last call for HTML5 Working Draft
+2013: Candidate status (projected)
+2014: Recommendation status (projected)
+
+-- Current support
+
+http://fmbip.com/litmus/
+http://caniuse.com/
+http://html5test.com/
+
+http://modernizr.com
+
+http://en.wikipedia.org/wiki/Comparison_of_layout_engines_(HTML5)
+http://samples.msdn.microsoft.com/ietestcenter/
+
+-- What HTML5 is (and isn't)
+
+http://www.apple.com/html5/
+https://developer.apple.com/safaridemos/
+
+These are not HTML5:
+
+CSS3 Transitions
+Web Sockets
+Geolocation
+SVG
+@font-face
+
+HTML5 is:
+
+Evolution of HTML4 and DOM Level 2
+Removal or redefinition of presentational markup
+Formalized foundation-leve APIs
+Evolution of browser into programming platform
+
+2. What's New
+
+-- HTML5 vs. HTML4
+
+largely a revised version of HMTL4
+designed to replace HTML4, XHTML 1.0 and DOM level2
+
+<!DOCTYPE HTML>
+<meta charset="UFT-8">
+
+article, aside, audio, canvas, command, data list, details, embed, fig caption, figure, footer, header, group, keygen, mark, meter, van, output, progress, rp, ruby, section, source, summary, time, video
+
+-Web Forms 2.0 specification is integrated
+-date pickers, color pickers, numeric steppers
+-input types now include email, search, and url
+-PUT and DELETE form methods now supported
+
+-Integrated APIs
+audio
+video
+offline apps
+editable
+drag & drop
+history
+web protocols (ftp, mail, etc)
+
+not
+geolocation
+messaging
+(have their own specs)
+
+-- Structural tags
+
+<section></section>
+"The section element represents a generic section of a document or application. A section in this context is a thematic grouping of content, typically with a heading…"
+
+-thematic grouping:
+
+chapters, intros, product descriptions
+
+not simply a replacement for div tag, if you need a container tag to specifically assist with styling or scripting, use div tag.
+
+<article></article>
+"The article element represents a self-contained composition in a document, page, application or site and that is intended to be independently distributable or reusable, e.g. in syndication. This could be a forum post, a magazine or newspaper article, a blog entry, a use-submitted comment, an interactive widget or gadget, or any other independent item of content."
+
+-independent:
+
+can be used in feed or syndication
+
+<aside></aside>
+"The aside element represents a section of a page that consists of content that is tangentially related to the content around the aside element, and which could be considered separate from that content. Such sections are often represented as sidebars in printed typography."
+
+-tangentially related:
+
+should be nested within the section of content in which it relates to
+top level: entire page
+article: related content
+
+pull quotes, ads, related navigational groupings
+
+<header></header>
+"The header element represents a group of introductory or navigational aids. A header element is intended to usually contain the section's heading (an h1-h6 element or an group element), but this is not required. The header element can also be used to wrap a section's table of contents, a search form, or any relevant logos. "
+
+-
+
+<hgroup></hgroup>
+"The group element represents the heading of a section. The element is used to group a set of h1-h6 elements when the heading has multiple levels, such as subheadings, alternative titles or taglines."
+
+-relating titles
+
+<footer></footer>
+"The footer element represents a footer for its nearest ancestor sectioning content to sectioning root element. A footer typically contains information about its section such as who wrote it, links to related documents, copyright data, and the like."
+
+-
+
+<nav></nav>
+"The nab element represents a section of a page that links to other pages or to parts within the page: a section with navigation links."
+
+-
+
+only to be used for major navigational blocks
+used by assistive technology to determine when nav should be skipped or immediately available for user agents such as screen readers
+
+-- Content tags
+
+<figure></figure>
+"The figure element represents some flow content, optionally with a caption, that is self-contained and is typically referenced as a single unit from the main flow of the document.
+
+The element can thus be used to annotate illustrations, diagrams, photos, code listings, etc, that are referred to from the main content of the document, but that could, without affecting the flow of the document, be moved away from that primary content, e.g. to the side of the page, to dedicated pages, or to an appendix."
+
+-Grouping or sectioning visual content relating to the page's overall content
+
+grouping os sectioning visual content in relation to the overall page content
+
+<video></video>
+"A video element is used for playing videos or movies, and audio files with captions.
+
+…is a media element whose media data is ostensibly video data, possibly with associated audio data."
+
+<audio></audio>
+"The audio element is a media element whose media data is ostensibly audio data."
+
+<embed></embed>
+"The embed element represents an integration point for an external (typically non-HTML) application or interactive content."
+
+-widely used to insert plugin content (like Flash)
+
+<canvas></canvas>
+"The canvas element provides scripts with a resolution-dependent bitmap canvas, which can be used for rendering graphs, game graphics, or other visual images on the fly."
+
+-draw directly on the page, good for dynamic graphs, etc…
+
+-- Application-focused tags
+
+<meter></meter>
+"The meter element represents a scalar measurement within a known range, or a fractional value; for example disk usage, the relevance of a query result, or the fraction of a voting population to have selected a particular candidate.
+
+This is also known as a gauge."
+
+-display results within a known range (min and max must be used)
+
+<progress></progress>
+"The progress element represents the completion progress of a task. The progress is either indeterminate, indicating that progress is being made but that it is not clear how much more work remains to be done before the task is complete (e.g. because the task is waiting for a remote host to respond), or the progress is a number in the range zero to a maximum, giving the fraction of work that has so far been completed."
+
+-indeterminate
+
+<time></time>
+"The time element represents its contents, along with a machine-readable form of those contents in the datetime attribute. The kind of content is limited to various kinds of dates, times, time-zone offsets, and durations, as described below."
+
+-
+
+<details></details>
+"The details element represents a disclosure widget from which the user can obtain additional information or controls."
+
+-
+
+<command></command>
+"The command element represents a command that the user can invoke."
+
+-
+
+toolbars, panel commands, or icons within an application
+
+<menu></menu>
+"The menu element represents a list of commands"
+
+-
+
+context menu, toolbar or list of items that represent various commands
+
+-- Deprecated elements
+
+needs to be backwards compatible (stupid font tag)
+
+Deprecated elements are not to be used by authors, while implementers must still provide support for these legacy elements.
+
+basefont, big, center, font, s, strike, tt, u
+frame, frame set, no frames (accessibility issues)
+acronym, applet, isindex, dir
+
+deprecated attributes
+a, link			rev, charset
+img			longdesc, name
+html			version
+th			abbr
+td			scope
+all block level		align
+body			background
+img			hspace, vspace
+tables, tr, th, td	bgcolor
+table			border, cell padding, cell spacing
+td, th			height, width
+table			valign
+
+-- API Overview
+
+integrated:
+-video and audio
+-inline editing
+-offline application
+-history
+-web protocol (mail, ftp, etc)
+-drag and drop
+
+associated:
+-geolocation
+-2D canvas drawing
+-local storage
+-web workers
+-web sockets
+-messaging
+
+3. Creating HTML5 Documents
+
+-- Content models
+
+-HTML4: (2 models)
+block
+div, form, h1-h6, li, ol, p, pre, table, ul
+
+inline
+a, em, img, input, label, span, strong
+
+-HTML5: (7 models)
+
+http://www.w3.org/TR/2011/WD-html5-20110405/author/content-models.html#content-models
+
+Metadata
+"…content that sets up the presentation or behavior of the rest of the document"
+
+	base, command, link, meta, noscript, script, style, title
+
+Embedded
+"…any content that imports other resources into the document."
+	
+	audio, canvas, embed, iframe, img, math, object, svg, video
+
+Interactive
+"…any content specifically intended for use interaction."
+	
+	a, audio, button, details, embed, iframe, img, input, keygen, label, menu, object, select, text area, video
+
+Heading
+"…defines the header of a section which can either be explicitly marked up with sectioning elements of implied by the heading content itself."
+
+	h1, h2, h3, h4, h5, h6, hgroup
+
+Phrasing (similar to inline)
+"…the text of the document, as well as elsments used to mark up the test within paragraph level structures."
+
+	---
+
+Flow (if it fits in the body tag, its in)
+"…are elements that would be included in the normal flow of the document."
+
+	---
+
+Sectioning
+"…content that defined the scope of headings and footers"
+
+	article, aside, nav, section, h1-h6
+
+not discussing how different content model types should be rendered, only concerned with the structure
+
+-- Outline algorithm
+
+details how sectioning content should be parsed using the rules of the outline algorithm to ensure your page is structured semantically
+
+listing your page as table of contents
+
+section and heading content is used to define the outline (with body established as outline root)
+
+initial heading content is used to name sections
+
+http://www.w3.org/TR/html5/headings-and-sections.html#outlines
+
+http://www.whatwg.org/specs/web-apps/current-work/multipage/sections.html#outlines
+
+-- Role of <div> tags
+
+was default container tag for nearly all sections of content
+
+"The div element has no special meaning at all. It represents its children. It can be used with the class, lang, and title attributes to mark up semantics common to a group of consecutive elements.
+
+Authors are strongly encouraged to view the div element as an element of last resort, for when no other element is suitable. Use of more appropriate elements instead of the div element leads to better accessibility for readers and easier maintainability for authors."
+
+----represents its children
+
+learn when it is appropriate to use new elements.
+
+-only use section and article tags when sectioning content is appropriate
+-only use the aside tag for related content (not just a replacement for sidebar)
+-headers and footers are for grouping heading or footer content (can't contain headers and footers of their own)
+-don't use nav for every section of links
+-divs can be used to group related content
+
+-- Using ID and class attributes
+
+-both are global attributes
+-id values must be unique per page, often used to identify scripting targets
+-classes can be used as often as needed per page
+-authors are encourage to write class values that describe the content
+-getElementsByClassName() is new to the DOM in HTML5
+
+-- DOCTYPE declarations
+
+browser rendering modes
+-quirks mode
+-standards mode
+
+doctype is required to trigger standards mode, but serves no other purpose
+
+<!DOCTYPE html>
+
+make sure there is no white space above doctype, could trigger quirks mode
+
+-- Character encoding
+
+how your browser takes the binary data sent to it, translates that into characters on the screen
+
+<meta charset="utf-8">
+
+4. Structuring HTML5 Documents
+
+-- Syntax
+
+no longer case sensitive, some opening/closing tags are optional. can probably get away with not using quotes with single attribute items
+
+mime types are optional, user agents are instructed to use the mime type as told by the server. css, js is assumed. self closing tags are no longer necessary.
+
+-- Basic page structure
+
+<!doctype html>
+<html lang=en>
+<head>
+<meta charset=utf-8>
+<title></title>
+</head>
+<body>
+<header>
+<nav></nav>
+</header>
+<section>
+<article></article>
+<aside></aside>
+</section>
+<footer></footer>
+</body>
+</html>
+
+-- Structuring top-level elements
+
+http://www.w3.org/TR/2011/WD-html5-20110405/author/
+
+-header
+"The header element represents a group of introductory or navigational aids."
+
+-nav
+"The nav element represents a section of a page that links to other pages or to parts within the page: a section with navigation links.
+
+MAJOR navigation block
+
+should contain an h1 tag so its not an undefined section
+
+-section
+"The section element represents a generic section of a document or application. A section, in this context, is a thematic grouping of content, typically with a heading"
+
+THEMATIC grouping of content, but content that you would not to republish or repurpose on its own
+
+-article
+"The article element represents a self-contained composition in a document, page, application, or site and that is, in principle, independently distributable or reusable, e.g. in syndication. This could be a forum post, a magazine or newspaper article, a blog entry, a user-submitted comment, an interactive widget or gadget, or any other independent item of content.
+
+When article elements are nested, the inner article elements represent articles that are in principle related to the contents of the outer article. For instance, a blog entry on a site that accepts user-submitted comments could represent the comments as article elements nested within the article element for the blog entry.
+
+Author information associated with an article element (q.v. the address element) does not apply to nested article elements."
+
+ANY other INDEPENDENT ITEM of content
+
+can contain header/footers, even sections. or can be placed inside section tags
+
+-aside
+"The aside element represents a section of a page that consists of content that is tangentially related to the content around the aside element, and which could be considered separate from that content. Such sections are often represented as sidebars in printed typography.
+
+The element can be used for typographical effects like pull quotes or sidebars, for advertising, for groups of nav elements, and for other content that is considered separate from the main content of the page."
+
+TANGENTIALLY related to the content around the aside element
+
+-footer
+"The footer element represents a footer for its nearest ancestor sectioning content or sectioning root element. A footer typically contains information about its section such as who wrote it, links to related documents, copyright data, and the like."
+
+don't have to be used at the end of a section, but they usually are. Can have multiple footers within a section
+
+-- Creating document sections
+
+-- Building headers (properly)
+
+can now have multiple h1 tags in a document, search engines are getting smarter, so it is valid to have an h1 tag for each section of the page. these are necessary for good document structure, especially in aiding screen readers, and can always be hidden with css
+
+the first heading of a section is its title (regardless of its ranking)
+
+-- Using hgroup to override sectioning
+
+"The hgroup element represents the heading of a section. The element is used to group a set of h1–h6 elements when the heading has multiple levels, such as subheadings, alternative titles, or taglines.
+
+For the purposes of document summaries, outlines, and the like, the text of hgroup elements is defined to be the text of the highest ranked h1–h6 element descendant of the hgroup element, if there are any such elements, and the first such element if there are multiple elements with that rank. If there are no such elements, then the text of the hgroup element is the empty string."
+
+can put lower ranking headings first, HIGHEST RANKING ELEMENT will be used
+
+-- Properly nested structure (0305)
+
+implicit sections are created by heading, explicit sections are created by <section>/<aside> tags
+
+-- Sectioning roots (0306)
+
+contain their own internal outline, regardless of how complex it is, is not added to any ancestral parent's outline, essential content hidden from rest of it parents' elements outline
+   <blockquote>, <details>, <fieldset>, <figure>, <td> (and body element…)
+
+
+--Organizing content
+
+start with content (list and quantify)
+
+--Planning document structure
+
+pencil sketches
+maybe going into PS
+
+--Choosing the right structural element
+
+Should it start a new section?
+NO: Is it introductory content? -> <header>
+NO: Does the content contain information about the author, related links or legal information? -> <footer>
+NO: Is the content being grouped simply for stylistic reasons, or to extend its meaning further through an ID or class attribute? -> <div>
+NO: Not sectioning content, find appropriate grouping content element (for example <blockquote>… )
+
+Should it start a new section?
+YES: Is it a section of major navigation? -> <nav>
+NO: Is the content self-contained and could it survive independently of the document? -> <article>
+NO: Is the content only tangentially related to the content around it? => <aside>
+NO: Is the content a thematic grouping, possibly containing content that could be arranged in a header or footer? -> <section>
+NO: use a heading to create implicit section
+
+-- Checking document outlines
+
+http://gsnedders.html5.org/outliner/
+
+-- Initial page structure
+
+<body>
+<header>
+<nav></nav>
+</header>
+<section>
+<article></article>
+</section>
+<aside></aside>
+<footer></footer>
+</body>
+
+-- Class and ID attributes
+-class
+"There are no additional restrictions on the tokens authors can use in the class attribute, but authors are encouraged to use values that describe the nature of the content, rather than values that describe the desired presentation of the content."
+
+DESCRIBE the NATURE of the content, rather than desired presentation 
+
+-id
+"The id attribute specifies its element's unique identifier (ID). The value must be unique amongst all the IDs in the element's home subtree and must contain at least one character. The value must not contain any space characters."
+
+must be UNIQUE. best used for scripting or page anchors
+
+-- Structuring interior content
+
+know when to use section, article, aside, div
+
+-- Structuring headers
+
+<hgroup> can only contain h1-h6 elements, so use <header> when you need to group other elements
+
+-- Building navigation
+
+navs now need some sort of headline tag to describe them
+
+-- Structuring footers
+
+<a href="tel://562-867-5309">T: 562.867.5309</a>
+
+-- <figure> and <figcaption>
+-figure
+"The figure element represents some flow content, optionally with a caption, that is self-contained and is typically referenced as a single unit from the main flow of the document.
+
+The element can thus be used to annotate illustrations, diagrams, photos, code listings, etc, that are referred to from the main content of the document, but that could, without affecting the flow of the document, be moved away from that primary content, e.g. to the side of the page, to dedicated pages, or to an appendix."
+
+ILLUSTRATIVE of the content it is referencing. not every image needs to be a figure. can have multiple items
+
+images, illustrations, code snippets, poems, 
+
+-figcaption
+"The figcaption element represents a caption or legend for the rest of the contents of the figcaption element's parent figure element."
+
+-- Grouping content with asides (0502)
+
+-- <div> (0503)
+
+-- Lists
+-<ol>
+"The ol element represents a list of items, where the items have been intentionally ordered, such that changing the order would change the meaning of the document."
+
+    The start attribute, if present, must be a valid integer giving the ordinal value of the first list item.
+    The reversed attribute is a boolean attribute. If present, it indicates that the list is a descending list (..., 3, 2, 1). If the attribute is omitted, the list is an ascending list (1, 2, 3, ...).
+
+-<ul>
+"The ul element represents a list of items, where the order of the items is not important — that is, where changing the order would not materially change the meaning of the document."
+
+-<dl>
+"The dl element represents an association list consisting of zero or more name-value groups (a description list). Each group must consist of one or more names (dt elements) followed by one or more values (dd elements). Within a single dl element, there should not be more than one dt element for each name."
+
+0 or more NAME-VALUE pairs
+
+-- Bold and italic
+-<b>
+"The b element represents a span of text to be stylistically offset from the normal prose without conveying any extra importance, such as key words in a document abstract, product names in a review, or other spans of text whose typical typographic presentation is boldened."
+
+don't use it
+
+-<i>
+"The i element represents a span of text in an alternate voice or mood, or otherwise offset from the normal prose, such as a taxonomic designation, a technical term, an idiomatic phrase from another language, a thought, a ship name, or some other prose whose typical typographic presentation is italicized."
+
+ALTERNATE VOICE
+
+-<em>
+"The em element represents stress emphasis of its contents.
+
+The level of emphasis that a particular piece of content has is given by its number of ancestor em elements.
+
+The placement of emphasis changes the meaning of the sentence. The element thus forms an integral part of the content. The precise way in which emphasis is used in this way depends on the language."
+
+-<strong>
+"The strong element represents strong importance for its contents.
+
+The relative level of importance of a piece of content is given by its number of ancestor strong elements; each strong element increases the importance of its contents.
+
+Changing the importance of a piece of text with the strong element does not change the meaning of the sentence."
+
+-- Citing works semantically
+-<cite>
+"The cite element represents the title of a work (e.g. a book, a paper, an essay, a poem, a score, a song, a script, a film, a TV show, a game, a sculpture, a painting, a theatre production, a play, an opera, a musical, an exhibition, a legal case report, etc). This can be a work that is being quoted or referenced in detail (i.e. a citation), or it can just be a work that is mentioned in passing.
+
+A person's name is not the title of a work — even if people call that person a piece of work — and the element must therefore not be used to mark up people's names. (In some cases, the b element might be appropriate for names; e.g. in a gossip article where the names of famous people are keywords rendered with a different style to draw attention to them. In other cases, if an element is really needed, the span element can be used.)"
+
+making past usage of element non-conforming, so IGNORE THIS SPEC
+
+-- <address>
+"The address element represents the contact information for its nearest article or body element ancestor. If that is the body element, then the contact information applies to the document as a whole.
+
+The address element must not be used to represent arbitrary addresses (e.g. postal addresses), unless those addresses are in fact the relevant contact information. (The p element is the appropriate element for marking up postal addresses in general.)"
+
+-- <small>
+"The small element represents side comments such as small print.
+
+The small element should not be used for extended spans of text, such as multiple paragraphs, lists, or sections of text. It is only intended for short runs of text. The text of a page listing terms of use, for instance, would not be a suitable candidate for the small element: in such a case, the text is not a side comment, it is the main content of the page."
+
+such as LEGAL text, or a DISCLAIMER
+
+-- <mark>
+"The mark element represents a run of text in one document marked or highlighted for reference purposes, due to its relevance in another context. When used in a quotation or other block of text referred to from the prose, it indicates a highlight that was not originally present but which has been added to bring the reader's attention to a part of the text that might not have been considered important by the original author when the block was originally written, but which is now under previously unexpected scrutiny. When used in the main prose of a document, it indicates a part of the document that has been highlighted due to its likely relevance to the user's current activity.
+
+Another example of the mark element is highlighting parts of a document that are matching some search string. If someone looked at a document, and the server knew that the user was searching for the word "kitten", then the server might return the document with one paragraph modified…" 
+
+good for highlighting found search terms on returned pages. Don't just use it to highlight something (that would be semantically incorrect)
+
+-- Dates and time
+-<time>
+"The time element represents either a time on a 24 hour clock, or a precise date in the proleptic Gregorian calendar, optionally with a time and a time-zone offset. [GREGORIAN]
+
+This element is intended as a way to encode modern dates and times in a machine-readable way so that, for example, user agents can offer to add birthday reminders or scheduled events to the user's calendar.
+
+The time element is not intended for encoding times for which a precise date or time cannot be established. For example, it would be inappropriate for encoding times like "one millisecond after the big bang", "the early part of the Jurassic period", or "a winter around 250 BCE".
+
+For dates before the introduction of the Gregorian calendar, authors are encouraged to not use the time element, or else to be very careful about converting dates and times from the period to the Gregorian calendar. This is complicated by the manner in which the Gregorian calendar was phased in, which occurred at different times in different countries, ranging from partway through the 16th century all the way to early in the 20th."
+
+    The pubdate attribute is a boolean attribute. If specified, it indicates that the date and time given by the element is the publication date and time of the nearest ancestor article element, or, if the element has no ancestor article element, of the document as a whole. If the element has a pubdate attribute specified, then the element needs a date. For each article element, there must be no more than one time element with a pubdate attribute whose nearest ancestor is that article element. Furthermore, for each Document, there must be no more than one time element with a pubdate attribute that does not have an ancestor article element.
+
+    The datetime attribute, if present, gives the date or time being specified. Otherwise, the date or time is given by the element's contents.
+
+http://www.w3.org/TR/2011/WD-html5-20110405/author/common-microsyntaxes.html#dates-and-times  
+
+-- Creating block-level links
+links can now wrap MULTIPLE elements
+
+clicking on one of the elements will bring focus to the other one(s) as well (bgcolor, etc)
+
+need to control this with css, as well as setting the proper anchor to 'block-evel'
+
+-- Understanding link relationships (0512)
+http://www.w3.org/TR/2011/WD-html5-20110405/author/semantics.html#the-link-element
+
+-- Defining link relationships
+http://www.w3.org/TR/2011/WD-html5-20110405/author/links.html#linkTypes
+http://microformats.org/wiki/existing-rel-values
+
+rel attribute IS NOT OPTIONAL for link tags
+
+<a rel="start">
+<a rel="next">
+<a rel="prev">
+<a rel="author">
+<a rel="license">
+
+provides us with an opportunity to provide semantically richer content which can be used by any supporting user agent
+
+-- Ensuring cross-browser structure
+
+need to tell older browsers which html5 elements are block-level, and which ones are inline. Also, the HTML5 spec doesn't say whether these elements should be block-level or inline.
+
+/*html5 display rule*/
+article, aside, canvas, details, figcaption, figure, footer, header, hgroup, menu, nav, section, summary { display:block; }
+
+html5shiv
+old i.e. doesn't recognize these elements
+
+5. Building Forms in HTML5
+
+Modernizr
+Webforms2
+jQuery & jQueryUI
+
+Browser now handles some of the validation
+
+--New Attributes and Methods
+-Autofocus
+specifies a form element that should receive the focus when the page loads
+if (!Modernizr.input.autofocus) {
+    $("input[autofocus]").focus();
+}
+
+-Autocomplete
+indicates that this element's value may be remembered for future entries
+
+-Placeholder
+specifies text that appears in the element until the user enters an actual value
+intended to be a short hint to the user. Should not be an alternative to the label form field
+
+if (!Modernizr.input.placeholder) {
+    //makePlaceholders(); //custom function
+}
+
+-Pattern
+restricts input of a field to match a regex pattern
+pattern="(\d+)"
+pattern="^[0-9]{5}$"
+
+include webforms2 library to add support
+
+-novalidate
+prevents forms from running validation logic.
+
+main use is to allow user to 'save' a form's state so they can continue later without having to first validate all entries
+
+<form novalidate> //don't use this
+<input type"submit" value="save" formnovalidate> //use this
+
+-Required
+indicates that the field is required to have a valid value
+include webforms2 library to add support
+
+-Selection
+input.select()	existing method to select all the text in an input control
+input.selectionStart	property that gets or selects the selection start point
+input.selectionEnd	property that gets or selects the selection endpoint
+input.setSelectionRange(start,end)	method that sets the selection start and end points
+
+-css styling pseudo-classes for form elements
+:valid		pseudo-class for styling elements in their valid state
+:invalid	pseudo-class for styling elements in their invalid state
+:required	pseudo-class for styling elements that are required
+
+--Formatting Fields With the New Input Type Attributes
+-Search
+<input type="search">
+
+-email
+<input type="email">	provides email validation, and mobile platforms will provide specialized keyboard
+include webforms2 library to add support
+
+-url
+<input type="url">	provides url validation, as well as custom keyboards (on mobile platforms)
+include webforms2 library to add support
+
+-tel
+<input type="tel">	browsers don't try to validate (too many different formats), best for optimizing keyboards on mobile devices
+
+-number (stepper)
+<input type="number">	can validate or offer optimized keyboards
+min=""
+max=""
+step=""
+include webforms2 library to add VALIDATION-ONLY support
+
+if (!Modernizr.inputtypes.number) {
+            var $numerics = $("input[type=number]");
+            $numerics.each(function () {
+                var thisNum = $(this);
+                thisNum.spinner({
+                    min: thisNum.attr("min"),
+                    max: thisNum.attr("max"),
+                    step: thisNum.attr("step")
+                });
+            });
+        }
+if (!Modernizr.inputtypes.date) {
+            var $dates = $("input[type=date]");
+            $dates.each(function () {
+                var thisDate = $(this);
+                thisDate.datepicker({
+                    minDate: thisDate.attr("min"),
+                    maxDate: thisDate.attr("max"),
+                    dateFormat: "yy-mm-dd"
+                });
+            });
+        }
+
+-range (slider)
+<input type="range">
+min=""
+max=""
+step=""
+
+-Dates & Times
+<input type="time">		HH:MM:SS.FF
+<input type="date">		YYYY-MM-DD
+<input type="datetime">		YYYY-MM-DDTHH:MM:SS.FFZ
+<input type="datetime-local">	YYYY-MM-DDTHH:MM:SS.FF
+<input type="week">		YYYY-W##			(additional week pull-down menu)
+<input type="month">		YYYY-MM				(additional month pull-down menu)
+
+can change default step with step=""
+
+as of now, this is only supported in opera and mobile safari
+
+-color
+<input type="color">
+
+only supported in Opera
+
+--Using the New Form Elements
+-datalist
+allows you to specify a list of common options that are associated with a text field - suggested entries
+
+<input type="text" list="suggestions">
+<datalist id="suggestions">
+    <option value=""></option>
+    <option value=""></option>
+    <option value=""></option>
+</datalist>
+
+-progress
+<progress>
+used to represent progress towards completion, but not intended to indicate measurements (that's what <meter> is for)
+value=""	current value of control, must be greater than 0, but less than max value
+max=""
+
+<progress value="50.0" max="100.0">50%</progress>
+
+progress.position	returns calculated position of control
+
+only supported in Opera
+
+-meter
+<meter>
+used to represent a value that falls within a known range (gauge). not used to demonstrate progress against a series of steps…
+value=""	must be greater than 0, but less than max
+min=""
+max=""
+high=""		indicates a point where values are considered 'low'
+low=""		indicates a point where values are considered 'high'
+optimum=""	indicates a point where the value is considered to be optimum
+
+use fallback text within the tag in case the browser does not support element
+
+only supported in Opera, Chrome
+
+-output
+<output></output>
+represents the results of a calculation
+
+for=""		space separated list of IDs of the elements that influenced or directly affected the calculation that this element represents
+
+output.value
+
+not supported in Safari / IE
+
+6. HTML5 API Support
+
+-- Canvas
+creates a drawing environment within your browser (application support). Canvas 2D API is its own spec, drawing vector graphics within a raster rendering space
+
+sample drawing methods: beginPath(), fillRect(), fillStyle(), moveTo(), lineTo(), closePath()
+
+canvas element's grid origin is top left (0,0)
+
+http://www.w3.org/TR/html5/the-canvas-element.html#the-canvas-element
+http://dev.w3.org/html5/2dcontext/
+
+https://developer.mozilla.org/en/Canvas_tutorial
+http://www.canvasdemos.com
+
+-- Adding canvas content
+
+<canvas id="myMap" width="600" height="695">Your browser does not support canvas. Please upgrade to the latest version of Chrome, Firefox or Safari</canvas>
+
+<script type="text/javascript">
+function drawMap() {
+	var elvPlot = document.getElementByID('myMap').getContext('2d'); //passes in the 2d Drawing Api
+	var img  = new Image();
+	img.onload = function() {
+		elvPlot.drawImage(img,0,0); //this script will run faster than the image can be downloaded, unless we use this onLoad function
+	}
+	img.src = '_images/northridge_map.jpg';
+}
+
+drawMap();
+</script>
+
+-- Drawing in the canvas environment
+
+only shapes available are rectangles
+
+img.onload = function() {
+	elvPlot.drawImage(img,0,0); //this script will run faster than the image can be downloaded, unless we use this onLoad function
+
+	elvPlot.lineWidth = 4; //must be set BEFORE each and every beginPath is called. use even numbers because the canvas draws with a centerline stroke
+	elvPlot.lineJoin = "round"; //round, bevel, miter (default)
+	elvPlot.strokeStyle = "#7f7f7f"; //can also use rgb or rgba
+
+	elvPlot.beginPath();
+	elvPlot.moveTo(89,644) //does not actually draw, its like picking up a pen and moving to a new position on paper
+	elvPlot.lineTo(106,627);
+	elvPlot.lineTo(140,592);
+	elvPlot.stroke();
+
+	elvPlot.lineJoin = "miter"; //reset to default
+	elvPlot.lineWidth = 4; //this is just a visual reminder, it's not required to wok
+	elvPlot.strokeStyle = "#333";
+
+	elvPlot.beginPath();
+	elvPlot.moveTo(89,434);
+	elvPlot.lineTo(89,645);
+	elvPlot.lineTo(567,645);
+	elvPlot.stroke();
+}
+
+
+
+
+
+--Examples of Current HTML5 Sites
+
+http://alteredqualia.com/canvasmol/
+http://raphaeljs.com
+http://thewildernessdowntown.com
+http://mudcu.be/sketchpad/
+http://www.pirateslovedaisies.com
+
+
+--Introducing the Canvas Element
+
+-<canvas>
+the canvas element provides web pages with a drawing surface for drawing all kinds of graphics - shapes, images, text, etc
+supported in latest browsers, other browsers display fallback content
+can have multiple canvases
+contents are created on-the-fly using script, but then forgotten about and not added to DOM
+
+defaults to 300x100, transparent black
+
+toDataUrl(type)		converts the content of the image to a data://URL of the given image type. image/png support is mandatory but others can be supported
+getContext(ctxID)	retrieves the drawing context for canvas. This context contains information about the canvas and provides all of the drawing methods
+
+-<canvas> vs SVG
+elements drawn programmatically			elements are part of DOM
+drawing is done with pixels			drawing is done with vectors
+animations are not built in			animations ARE built in
+high performance for pixel-based drawing(GPU)	based on standard XML syntax which provides better accessibility
+
+not mutually exclusive, but can not be drawn into each other (can be stacked)
+
+--Understanding the Canvas Element and 2D Drawing API
+
+-methods and properties can be altered programmatically
+-canvas 2d drawing API
+retrieve reference to canvas element
+get drawing context from element using getContext()
+if the result is not null, start drawing
+
+shapes
+rectangles, lines, arc, paths, colors/styles, bezier curves, quadratic curves, text
+how to draw
+compositing, patterns, gradients, shadows, clipping paths
+-----
+transforms, images, video, raw pixels
+
+--Basic Canvas Drawing Techniques
+
+-setting and using colors and styles
+fillStyle		style to use when filling. CSS Color, Gradient, Pattern (black)
+strokeStyle		style to use on strokes. CSS Color, Gradient, Pattern (black)
+lineWidth		width of the imaginary pen to use when drawing lines (1)
+
+1. set the fill and stroke styles and line width
+2. call drawing operation that creates a shape
+
+-drawing basic shapes: rectangles and lines
+
+rectangles are only primitive shape supported by canvas
+
+clearRect(x,y,w,h)	erases the given rectangle, makes area fully transparent
+strokeRect(x,y,w,h)	outlines a rectangle with the current strokeStyle
+fillRect(x,y,w,h)	fills a given rectangle with the current fillStyle
+
+lines can be created using a variety of settings for how they join and end
+
+moveTo(x,y)	moves pen to given coordinates, does not draw
+lineTo(x,y)	draws line from current pen position to new point
+lineWidth	determines pixel with that lines will be drawn in
+lineCap		how line endings are drawn: butt (default), round, square
+lineJoin	how lines join together: round, bevel, miter (default)
+miterLimit	the limit at which line joins are cut off and drawn as bevels (10)
+beginPath()	begins a new set of path-drawing operations
+stroke()	collects all of the current path commands and draws them
+
+-understanding the canvas state
+
+each context maintains a drawing state which code can manage
+you can save the current state and restore a previous one
+the state can be pushed onto a stack of saved states
+keeps track of several properties:
+	lineWidth, strokeStyle, fillStyle, LineCap, etc
+	current transformation matrix
+	current slipping region
+
+call context.save()
+call context.restore()
+
+-drawing complex shapes: arcs and paths
+
+a path is a set of points, connected by lines or curves and are either open or closed. the context always has one (and only one) current path 
+
+arcs are curves that are portions of a circle (which is a 360ª arc
+
+arc(x, y, r, sA, eA, aC)	adds an arc to the current path that starts at x,y and has a radius of r with a starting angle of sA, ending angle of eA. the aC argument is true if the arc is counter-clockwise
+arcTo(x1, y1, x2, y2, r)	adds an arc to the current path that starts at the current pen position, has the given control points and a radius of r
+closePatch()			closes the current drawing path
+
+NOTE: angles are in radians, not degrees. to convert degrees to radians: 
+var radians = (Math.PI / 180) * degrees;
+
+(360ª = 2π radians)
+
+-drawing complex shapes: bézier and quadratic curves
+
+Bézier curves are drawn starting from a context point to an end point using two control points to determine the curve
+quadratic curves use a start point, one control point and an end point
+
+bezierCurveTo(cx1, cy1, cx2, cy2, endX, endY)		draw a Bézier curve starting at the current pen position using the two control points defined by cx1, cy1 and cx2, cy2 and ending at point endX, endY
+quadraticCurveTo(cx, cy, x, y)				draw a quadratic curve starting at the current pen position using the given control point cx, cy and ending at the end point defined by x, y			
+
+-rendering text
+
+drawing text is similar to drawing any other path
+text can be stroked or filled using the same fillStyle and strokeStyle as path
+text drawn on canvas is not affected by any box model-it's just a path
+
+font				anything you would normally put into a CSS rule: family, size, weight, variant, ets (defaults to 10px sans-serif)
+textAlign			"start" (default), "end", "left", "right", "center"
+textBaseline			"top", "hanging", "middle", "alphabetic" (default), "ideographic", "bottom"
+fillText(txt, x, y, [maxW])	render the text string at x, y no wider than maxW
+strokeText(txt, x, y, [maxW])	render the text string at x, y no wider than maxW
+measureText(txt)		returns the dimension metrics of the string using the current font settings
+
+--Complex Canvas Drawing Techniques
+
+-creating shadows
+
+all drawing operations on the canvas are affected by the shadow attributes (can apply different shadows though)
+
+shadowColor	color to use for shadow, use any css color string. defaults to transparent black
+shadowOffsetX	horizontal offset (defaults to 0)
+shadowOffsetY	vertical offset (defaults to 0)
+shadowBlur	blur of shadow. defaults to 0 (no effect)
+
+-drawing with patterns
+
+can use colors, patterns, and gradients as values in any drawing operation that has a fill or stroke property
+a pattern is created from an image, video, or another canvas element.
+-if the image is animated, pattern uses the poster frame (or first frame)
+-for video, the current playback frame is used as the pattern
+patterns can be set to repeat in one direction, both or not at all
+
+createPattern(elem, repeat)	elem: img, video or canvas element. repeat: no-repeat, repeat, repeat-x, repeat-y
+
+for images, videos, you really need to use the onload function so the canvas doesn't try to fill with a pattern that has not been loaded yet
+
+-drawing with gradients
+
+linear		defined by 2 points on a path
+radial		defined by 2 circles, from edge of inner circle, to edge of outer one
+
+1. use appropriate function to create gradient
+2. add color stops
+
+can be used anywhere a stroke or fill style can be used
+
+createLinearGradient(x0, y0, x1, y1)		defines linear gradient that starts at point x0, y0 and travels to x1, y1
+createRadialGradient(x0, y0, r0, x1, y1, r1)	defines a radial gradient that begins with the circle whose center is at x0, y0 with radius r0, then travels to circle whose center is at x1, y1 with radius r1 (smaller circle MUST be inside larger one)
+addColorStop(position, color)			adds a color stop at given position and adds specified color. position is a float from 0.0 to 1.0 
+
+-using clipping paths
+
+clipping paths are like masks. they define a region inside of which drawing takes place and outside of which drawing has no effect. by default the entire canvas is the current clipping path
+any path can become a clipping path
+
+clip()		creates a new clipping region by calculating the intersection of the current clipping region and the area described by the current path. the new clipping region replaces the current clipping region
+
+-drawing images and video
+
+images and video can be programmatically drawn onto a canvas, can be resized or cropped
+
+drawImage(srcImg, dx, dy)		draws the source image onto the destination canvas at the location point (dx, dy)
+drawImage(srcImg, dx, dy, dw, dh)	draws the source image onto the destination canvas at the location point (dx, dy) but scales the image to fit with dw and height dh
+drawImage(srcImg, sx, sy, sq, sh, dx, dy, dw, dh)	draws the portion of the source image from the starting point (sx, sy) and within the area defined by width sw and height sh onto destination canvas at the location point (dx, dy) but scales the image to fit width dw and height dh
+
+draw image on video only grabs current frame. so you need to do something like a setInterval the grabs the new frame each time its updates (at whatever framerate the video happens to be)
+
+--Advanced Canvas Drawing Techniques
+
+-transforming objects using the translate tag
+
+-scaling objects
+
+-rotating objects
+
+-applying a custom transformation
+
+-compositing in canvas using globalAlpha
+
+-manipulating raw pixels
+
+--Building Practical Examples
+
+-building an image slideshow control
+-using smooth transitions ins a slideshow
+-creating a basic animation
+-creating animation with double buffering
+-incorporating canvas into a real page
+
+-- Drag-and-drop API
+
+http://www.lynda.com/HTML-5-tutorials/HTML5-Drag-and-Drop-in-Depth/84812-2.html?srchtrk=index%3A11%0Alinktypeid%3A2%0Aq%3Ahtml5%0Apage%3A1%0As%3Arelevance%0Asa%3Atrue%0Aproducttypeid%3A2
+-- Offline applications
+
+http://www.lynda.com/HTML-5-tutorials/HTML5-Local-Storage-and-Offline-Applications-in-Depth/80441-2.html?srchtrk=index%3A15%0Alinktypeid%3A2%0Aq%3Ahtml5%0Apage%3A1%0As%3Arelevance%0Asa%3Atrue%0Aproducttypeid%3A2
+-- Video
+-- Encoding video
+-- Adding video
+
+
+-- File API
+http://www.lynda.com/HTML-5-tutorials/HTML5-File-API-in-Depth/90369-2.html?srchtrk=index%3A6%0Alinktypeid%3A2%0Aq%3Ahtml5%0Apage%3A1%0As%3Arelevance%0Asa%3Atrue%0Aproducttypeid%3A2
+-- Video and audio
+http://www.lynda.com/HTML-5-tutorials/HTML5-Video-and-Audio-in-Depth/80781-2.html?srchtrk=index%3A5%0Alinktypeid%3A2%0Aq%3Ahtml5%0Apage%3A1%0As%3Arelevance%0Asa%3Atrue%0Aproducttypeid%3A2
+-- Document editing
+http://www.lynda.com/HTML-5-tutorials/HTML5-Document-Editing-in-Depth/85869-2.html?srchtrk=index%3A4%0Alinktypeid%3A2%0Aq%3Ahtml5%0Apage%3A1%0As%3Arelevance%0Asa%3Atrue%0Aproducttypeid%3A2
+-- Background processes with web workers
+http://www.lynda.com/HTML-5-tutorials/HTML5-Background-Processes-with-Web-Workers/85868-2.html?srchtrk=index%3A9%0Alinktypeid%3A2%0Aq%3Ahtml5%0Apage%3A1%0As%3Arelevance%0Asa%3Atrue%0Aproducttypeid%3A2
+-- Browser history management
+http://www.lynda.com/HTML-5-tutorials/HTML5-Managing-Browser-History/84811-2.html?srchtrk=index%3A10%0Alinktypeid%3A2%0Aq%3Ahtml5%0Apage%3A1%0As%3Arelevance%0Asa%3Atrue%0Aproducttypeid%3A2
+
+
+7. Associated Technologies
+
+-- Geolocation API
+
+http://www.lynda.com/HTML-tutorials/HTML5-Geolocation-in-Depth/84810-2.html?srchtrk=index%3A7%0Alinktypeid%3A2%0Aq%3Ahtml5%0Apage%3A1%0As%3Arelevance%0Asa%3Atrue%0Aproducttypeid%3A2
+
+-- Web storage API
+-- Websockets
+-- CSS3 (overview)
+HTML5		structure
+CSS3		presentation
+
+1996:CSS1	written to allow authors and users to specify styling independently of the browser
+1998:CSS2	excitement builds, but browser implementation is still slow
+1998:Seeds of CSS3	W3C suggested extension
+2000:Working Draft CSS3
+2002:CSS2.1	working draft
+
+css3 has been split into different modules (at different stages of development)
+designed to improve element and content targeting
+new styling options like drop shadows and opacity
+improved support for fonts and typography
+replace some javascript animations
+
+vendor-specific properties are a headache
+eCSStender.org
+css3generator.com
+
+-- Enhancing typography with CSS3
+
+references external fonts and makes them available for style sheets
+font licensing issues slowed initial adoption
+
+@font-face {
+font-family: "My Font";
+arc:url("_assets/myFont.eot");
+}
+
+cross-browser issues: they all use different font types
+
+syntax:
+@font-face {
+font-family: 'MidoMedium';
+src: url('../_assets/Mido-webfont.eot');
+src: local('☺'), url('../_assets/Mido-webfont.woff')
+format('woff'), url('../_assets/Mido-webfont.ttf')
+format('truetype'), url('../_assets/Mido-webfont.svg#webfontdeSVIj)d') format('svg');
+}
+
+i.e. only uses .eot fonts, so this format/url syntax keeps i.e. from choking on all the font types (trying to download them all). Other browsers just keep looking for the one they need and only use that. The smily face ensures that no local font is used, it may not be what you really wanted and a smiley face could not possibly be part of a font name because it is a two-bit unicode character
+
+http://paulirish.com/2009/bulletproof-font-face-implementation-syntax/
+
+-- @font-face
+
+http://fontsquirrel.com
+
+-- Styling HTML5 with CSS3
+
+use div tags for spurious grouping of content in order to add CSS
+
+multi-column text, drop shadows, rounded corners
+
+-- CSS3 transitions 
+
+varied support
+
+transition properties are set in normal state, final value is set in :hover state
+
+8. Final Thoughts
+http://dev.w3.org/html5/spec/Overview.html
+http://www.whatwg.org/specs/web-apps/current-work/multipage/
+
+PLAY with it!
+
+DREAMWEAVER
+http://www.lynda.com/Dreamweaver-CS5-tutorials/Getting-Started-with-HTML5/77851-2.html?srchtrk=index%3A3%0Alinktypeid%3A2%0Aq%3Across%20browser%0Apage%3A1%0As%3Arelevance%0Asa%3Atrue%0Aproducttypeid%3A2

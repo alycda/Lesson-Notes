@@ -1,0 +1,19 @@
+PHP5(.x.x) is located at:
+/private/etc/php.ini
+--set admin email
+--turn display errors on
+
+phpMyAdmin config file:
+~/Sites/phpMyAdmin.config.inc.php
+
+phpMyAdmin session vars:
+/private/var/tmp
+
+use php MySQLI
+
+Error Logs:
+/private/var/log/php (need to create this)
+
+
+
+http://www.askapache.com/php/custom-phpini-tips-and-tricks.html

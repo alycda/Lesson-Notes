@@ -1,0 +1,485 @@
+ 1. Regex // History
+
+set of symbols representing a text pattern
+formal language interpreted by regex processor
+
+matches text if it correctly describes the text
+
+--engines
+C/C++
+Java
+Javascript/Actionscript (ECMAScript)
+.NET
+Perl
+PHP (PCRE)
+Python
+Ruby
+Unix (POSIX BRE, POSIX, ERE)
+Apache (v1: POSIX ERE, v2: PCRE)
+MySQL (POSIX ERE)
+
+--notation conventions and modes
+/re/		standard
+/re/g		global
+/re/i		case-insensitive
+/re/m		multiline
+/re/s		dot matches all
+
+2. Characters
+
+--literal
+		space
+
+regular expressions are eager to return results (left-most preferred unless global is turned on)
+
+--metacharacters (like mathematical operators)
+.		any character except newline (wildcard)
+
+challenge of regex is matching what you want and ONLY what you want
+
+\		escape next character
+/		sometimes denotes the start or end of a regex, (not in javascript) sometimes need to escape with backslash
+\t		tab character
+\r		return
+\n		newline
+\r\n		sometimes need both
+\a		bell
+\e		escape
+\f		form feed
+\v		vertical tab
+ASCII / ANSI codes
+\xA(		0xA9
+
+3. Character Sets
+
+[	begins character set
+]	ends character set
+		will match any ONE literal character within brackets
+-	range character, all characters between starting and ending character
+		outside a set, its a literal dash
+		only works with single digits, 50-99 is really 0-9
+^	excludes all characters in set from being matched (could include whitespace, punctuation, etc)
+		outside of a set, denotes the beginning of a line
+\	escape character, only needed for ] - ^ \
+\d	[0-9]		shorthand for digit
+\w	[a-zA-Z0-9_]	shorthand for word char (upper and lowercase characters, numbers and underscores)
+\s	[ \t\r\n]	shorthand for (white)space, tab or line return
+\D	[^0-9]		not a digit
+\W	[^a-zA-Z0-9_]	not a word character (upper and lowercase characters, numbers and underscores)
+\S	[^ \t\r\n]	not a (white)space, tab or line return
+
+[^\d\d]  !=  [\D\S]
+[^\d\d]			NOT digit OR space character
+[\D\S]			EITHER NOT digit OR NOT space character
+
+--POSIX bracket expressions
+
+[:alpha:]	[A-Z-a-z]	alphabetic characters
+[:digit:]	[0-9]		numeric characters
+[:alnum:]	[A-Za-z0-9]	alphanumeric
+[:lower:]	[a-z]		lower-case
+[:upper:]	[A-Z]		upper-case
+[:punct:]	punctuation
+[:space:]	\s		space, tab, new line
+[:blank:]	space, tab
+[:print:]	printable characters, including space
+[:graph:]	printable characters, excluding space
+[:cntrl:]	control characters (non-printing)
+[:xdigit:]	[A-Fa-f0-9]	hexadecimal characters (0-9, A-F, a-f)
+
+must all be placed within character class (set)
+
+not supported by Java, JavaScript/Actionscript (ECMAScript), .NET, Python
+
+[[:alpha]] or [^[:alpha:]]
+
+4. Repetition Expressions
+
+--Repetition Metacharacters
+*	≥0		preceding item 0 or more times		(all regex engines)
++	≥1		preceding item 1 or more times		(no support in BRE)
+?	≥0<2		preceding item 0 or 1 times		(no support in BRE)
+
+--Quantified Repetition
+
+{	start of quantified repetition of preceding item
+}	end of quantified repetition of preceding item
+,	
+
+{min,max}	min is required, must be positive, can be 0
+		comma is optional (min is max without)
+		max is optional, no value if infinite
+\d{4,8}		4≥x≤8		matches number with 4 to 8 digits
+\d{4}		x=4		matches numbers with exactly 4 digits
+\d{4,}		x≥4		matches number with 4 or more digits
+
+\d{0,}	same as	\d*
+\d{1,}	same as \d+
+
+--Greedy Expressions	
+standard repetition quantifiers		match as much as possible before giving control to the next expression part. gives back as little as possible
+
+/.*[0-9]+/	wildcard actually matches all of "Page 266", but can't return a match if it doesn't allow subsequent parts of regex to do their job (in this case there has to be at least one digit character found by the [0-9] character set, followed by the +), so it tries to be less greedy, and goes back just one character. /.*/ matches "Page 26" and /[0-9]+/ matches just the 6
+
+by default:
+regular expressions are eager
+regular expressions are greedy
+
+--Lazy Expressions		
+match as little as possible before giving control to the next expression part
+
+?		0 or 1 times (lazy)
+*?		lazy star (prefer 0 instead of 1[greedy])
++?		lazy plus (prefer 1 instead of more than 1[greedy])
+{min, max}?	
+??		can be useless
+
+unix tools are always greedy (BRE, ERE) so the lazy strategy is not supported
+
+/.*[0-9]+/	wildcard first tries to match nothing, but since the digit can't match the P, the wild card tries to be a little less greedy and turns over the expression. The digit can't take over until the 2, so /.*/ matches "Page " and /[0-9]+/ matches "266"
+
+--Efficiency
+with indeterminate lengths of expressions, engine can do a lot of backtracking because it doesn't have a global view and can't make assumptions, must go through each character one by one.
+
+efficient matching + less backtracking = speedy results
+define quantity of repeated expressions
+	/.+/ is faster than /.*/
+	/.{5}/ and /.{3,7}/ are even faster
+narrow the scope of the repeated expression
+	/.+/ can become /[A-Za-z]+/
+provide cleared starting and ending points (use anchors and word boundaries)
+	/<.+>/ can become /<[^.]+>/
+
+5. Grouping Metacharacters
+
+(	start grouped expression
+)	end grouped expression
+
+apply repetition operators to a group
+makes expressions easier to read
+captures group for use in matching and replacing
+cannot be used inside a character set
+
+--Alternation
+|	pipe, matches previous or next expression, OR operator (some languages[php] use ||)
+
+ordered, leftmost expression gets precedence (without scanning entire string)
+multiple choices can be daisy-chained
+group alternations to keep them distinct
+
+--Logical and Efficient Alternations
+
+regex engines are eager
+regex engines are greedy
+
+put simplest and most efficient expression first
+
+--Repeating and Nesting Alternations
+
+first matched alternation does not effect the next matches
+check nesting carefully, tradeoff between precision, readability and efficiency
+
+6. Anchored Expressions
+
+^	start of string/line (supported in all regex engines)
+$	end of string/line (supported in all regex engines)
+\A	start of string, never end of line (are supported in Java, .NET, Perl, PHP, Python, Ruby)
+\Z	end of string, never end of line (are supported in Java, .NET, Perl, PHP, Python, Ruby)
+
+anchors refer to position, not actual character, zero-width
+
+--Single-line mode (Unix tools)
+^ and $ do not match at line breaks
+\A and \Z do not match at line breaks
+
+--Mulitline mode (most languages)
+^ and $ will match at line breaks
+\A and \Z do not match at line breaks
+
+Javascript	/^regex$/m
+Perl		m/^regex$/m
+PHP		preg_match(/^regex$/m, "string")
+
+--Word Boundaries
+
+\b	word boundary (start/end of word)
+\B	not a word boundary
+
+refer to position, not actual character
+
+most regex engines support, except Unix BRE's
+
+less backtracking
+a space is not a word boundary (in regex)
+
+7. Capturing Groups and Backreferences
+
+grouped expressions are captured, stores data matched not the expression automatically by default
+backreferences allow access to captured data
+
+\1 through \9		back reference for positions 1 through 9 (most regex engines support this)
+\10 through \99		some engines will support this
+$1 through $9		some engines use this instead (.htaccess/mod_rewrite)
+
+can be used in same expression as group
+can be accesses after the match is complete
+can't be used inside character classes
+
+/(apples) to \1/	matches "apples to apples"
+/<(i|em)>.+?</\1>/	matches "<i>Hello</i>" or "<em>Hello</em>" NOT "<i>Hello</em>"
+
+++++Backreferences to optional expressions
+
+captures occur on zero-width matches, so backreferences become zero-width too
+
+captures do not always occur on optional groups, so backreferences to a group that failed to match (except in (Java|Action)script)
+
+element is optional, group/capture is not optional
+
+element is not optional, group/capture is optional
+
+--Find and Replace Using Backreferences
+
+1. write regex that matches target data (test and revise as needed)
+2. add capture groups (capture anything that varies row to row)
+3. write replacement expression (use all captures, adding anything not captured but needed)
+
+--Non-Capturing Group Expressions
+
+?:	specify a non-capturing group (these must be first 2 characters at beginning of group
+	can optimize regex for speed, also preserve space for more captures
+	supported by most regex engines (except Unix tools), came along with Perl
+
+/(?:regex)/	? = give this group a different meaning
+		: = this meaning is non-capturing
+
+8. Lookaround Assertions
+
+assertion of what ought to lie ahead/behind, if look(ahead|behind) fails, match will fail
+any valid regex can be used. zero-width, does not include group in match
+
+supported by most regex engines (except Unix) introduced by Perl
+
+--Positive Lookahead
+
+?=		positive lookahead
+
+/(?=regex)/	? = give this group a different meaning
+		= = lookahead assertion(do not put a space after the equals sign)
+
+/(?=seashore)sea/ 	matches "sea" in "seashore" but not "seaside"	--OR--
+/sea(?=shore)/		same match
+
+--Double-Testing		
+
+testing assertion before matching "sea", or tries to match "sea" before testing assertion
+can allow you to match a pattern that also matches another pattern, run 2 or more different regex test on same string
+
+--Negative Lookahead
+
+?!		negative lookahead
+
+/(?!regex)/	? = give this group a different meaning
+		! = negative lookahead assertion(do not put a space after the exclamation point)
+
+/(?!seashore)sea/ 	matches "sea" in "seaside" but not "seashore"	--OR--
+/sea(?!shore)/		same match
+
+when to not match an entire pattern, expression that should be rejected
+
+/online(?! training)/	does not match "online training"
+/online(?!.*training)/	does not match "online video training"	
+
+(\bblack\b)(?!.*\1)	find last occurrence of word (when its not followed by itself)
+
+--Positive Lookbehind
+
+?<=		positive lookbehind
+
+/(?<=regex)/	? = give this group a different meaning
+		<= = negative lookbehind assertion(do not put a space after the equals sign)
+
+prefer to put the assertion at beginning of regex pattern, to avoid unnecessary backtracking. a few exceptions
+
+--Negative Lookbehind
+
+?<!		negative lookbehind
+
+/(?<!regex)/	? = give this group a different meaning
+		<! = negative lookbehind assertion(do not put a space after the exclamation point)
+
+support for look behind:
+	simple expressions in .NET, Java, Perl, PHP, Python, Ruby 1.9
+	not supported in Javascript, Ruby 1.8, Unix
+
+simple expressions means fixed length
+	literal text
+	character classes
+	no repetition or optional expressions
+	alternation only with fixed-length items
+		allowed: (?<=cat|dog|rat) 		[3 characters each]
+		not allowed: (?<=apple|banana|plum)	[different number of characters in each word]
+
+--Power of positions 
+
+going to a position, not selecting any width, but putting something at that position
+
+/(?<=\d)(?=(\d\d\d)+(?!\d))/	"149597870.7"	will return this:	149|597|870.9 allowing your cursor to be placed at correct insertion points for commas
+
+9. Unicode and Multibyte Characters
+
+++
+
+single byte
+	uses one byte (eight bits) to represent a character
+	allows for 256 characaters
+	A-Z, a-z, 0-9, punctuation, common symbols
+
+double bytes
+	uses two bytes (16 bits) to represent a character
+	allows for 65,536 characters
+
+many more characters than English alphabet
+àáâäãåā		latin
+≤≥≠¢£		symbols
+		Arabic, Chinese, Greek, Hebrew, Korean, Thai,…
+over 109,000 characters
+
+--Unicode
+
+variable byte size
+maintains compatibility with one and two-byte encoding
+allows for over 1 million characters
+
+mapping between character and a number
+"U+" followed by a four-digit hexadecimal number
+infinity symbol 	is written as U+221E
+é			can be U+00E9 (single byte) or U+0065 U+0301 (double byte)
+
+--Unicode in Regex
+
+complications for regular expressions:
+	words can be spelled multiple ways
+    		"cafe", "café"
+	words can be encoded multiple ways
+		"café" can be encoded as 4 or 5 characters
+	wildcard matching
+	backtracking
+	unicode is relatively new
+
+\u	unicode indicator (followed by 4-digit hexadecidmal number (0000-FFFF)
+	/caf\u00E9/ matches "café" but not "cafe"
+
+supported by Java, Javascript, .NET, Python, Ruby
+\x	Perl and PHP unicode indicator
+
+not supported in older Unix tools
+
+--Unicode wildcard
+
+\X	matches any single character, always matches line breaks
+
+ONLY SUPPORTED IN Perl AND PHP
+
+\p{property}	unicode property
+\p{Letter}	or \p{L}
+\p{Mark}	or \p{M}
+\p{Separator}	or \p{Z}
+\p{Symbol}	or \p{S}
+\p{Number}	or \p{N}
+\p{Punctuation}	or \p{P}
+\p{Other}	or \p{C}
+
+\P		not unicode property
+
+supported in Java, .NET, PHP and RUBY
+
+10. Useful Expressions
+
+--Match Names
+^([A-Z][A-Za-z.'\- ]+) ([A-Z][A-Za-z.'-]+)$	First name (optional middle name) with Last name (2 refs)
+^([A-Z][A-Za-z.'-]+) (?:([A-Z][A-Za-z.'-]+) )?([A-Z][A-Za-z.'-]+)$	First name optional middle name(s) last name (3 references)
+
+--Postal codes
+^\d{5}(-\d{4})?$		us zip codes
+^[A-Z]\d[A-Z] \d[A-Z]\d$	canada
+^([A-Z]{1,2}\d{1,2}|[A-Z]{1,2}\d[A-Z]) \d[A-Z]{2}$	uk  http://en.wikipedia.org/wiki/Postcodes_in_the_United_Kingdom
+
+--Email Addresses
+
+^[\w.%+\-]+@[\w.\-]+\.[A-Za-z]{2,6}$		valid email
+
+^[\w.%+\-]+@[\w.\-]+\.([A-Za-z]{2}|aero|asia|biz|cat|com|coop|edu|gov|info|int|jobs|mil|mobi|museum|name|net|org|pro|tel|travel|xxx)$			tld verification
+
+--URLs
+
+^(?:http|https):\/\/[\w\-_]+(?:\.[\w\-_]+)+[\w\-.,@?^=%&:/~\\+#]+$
+
+--Decimal Numbers and Currency
+
+^(\d*\.\d+|\d+)$
+^\$(\d*\.\d{2}|\d+)$				U.S. Dollar
+^(\$|£)(\d*\.\d{2}|\d+)$			British Pound
+^(\$|\u00A3|\u00A5|\uFFE5)(\d*\.\d{2}|\d+)$	Japanese Yen
+
+--IP Addresses
+
+^(25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)\.(25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)\.(25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)\.(25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)$
+
+--Dates
+
+^\d{4}[-/](0?[1-9]|1[012])[-/](0?[1-9]|[12][0-9]|3[01])$	2012-06-13
+
+--Times
+
+^(0?[1-9]|1[0-2]):[0-5][0-9]([aApP][mM])?$			12hr time
+^([0-1]?[0-9]|[2][0-3]):[0-5][0-9]?$				24 hour time
+^([0-1]?[0-9]|[2][0-3]):[0-5][0-9](:[0-5][0-9])?$		seconds
+^([0-1]?[0-9]|2[0-3]):[0-5][0-9](:[0-5][0-9])?( ([A-Z]{3}|GMT [-+]([0-9]|1[0-2])))?$			timezones
+
+--HTML Tags
+
+^<(?:([A-Za-z][A-Za-z0-9]*)\b[^>]*>(?:.*?)</\1>|[A-Za-z][A-Za-z0-9]*\b[^/>]*/>)$
+
+--Passwords
+
+^(?=.*\d)(?=.*[~!@#$%^&*()_\-+=|\\{}[\]:;<>?/])(?=.*[A-Z])(?=.*[a-z])\S{8,15}$	Must be 8-15 (valid) characters in length with at least 1 digit and 1 or more Capital letters, and 1 or more symbols
+
+--Credit Cards
+
+^(?:3[47]\d{2}([\- ]?)\d{6}\1\d{5}|(?:4\d{3}|5[1-5]\d{2}|6011)([\- ]?)\d{4}\2\d{4}\2\d{4})$		amex/visa/mc/discover
+
+--Words near words
+
+# Word1 near word2
+Regex:  /[Aa].*[Mm]an/
+Regex:  /[Aa](.+)[Mm]an/
+Regex:  /[Aa](?:.+)[Mm]an/
+Regex:  /[Aa](?:.+?)[Mm]an/
+
+# Use word boundaries
+Regex:  /\b[Aa]\b(?:.+?)\b[Mm]an\b/
+
+# Don't cross punctuation
+Regex:  /\b[Aa]\b(?:[^.,;]+?)\b[Mm]an\b/
+
+# Up to 20 characters between
+Regex:  /\b[Aa]\b(?:[^.,;]{1,20}?)\b[Mm]an\b/
+
+# Up to 5 words between
+Regex:  /\b[Aa]\b (?:\w+[\- :;.]){0,5}\b[Mm]an\b/
+
+# Lookahead assertions can control the match
+Regex:  /\b[Aa]\b(?= (?:\w+[\- :;.]){0,5}\b[Mm]an\b)/
+
+# Lookbehind assertions are not possible due to repetition and variable length
+
+--(re)Formating
+
+
+
+
+
+
+http://regexpal.com/
+http://www.gskinner.com/RegExr/

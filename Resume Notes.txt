@@ -1,0 +1,44 @@
+Resume ideas
+
+HTML email resume - quickest, shows my knowledge of sending HMTL emails
+
+checklist:
+1. contact info (no home address)
+2. objective
+3. career highlights
+4. experience
+5. education
+6. skills
+7. references (separate document)
+
+functional vs chronological resume:
+objective, experience, employment
+interest, experience
+
+
+Alyssa Davis
+Hello@Alyssa-Davis.com
+(912) 704-3959
+Los Angeles, CA
+
+Summary / Objective / Elevator Speech
+
+skills
+code: 
+applications:
+
+recent work (or highlighted projects?)
+
+experience
+Aly/Da
+AEG Live
+Nikkelkrome
+Therapy
+Jestercom
+
+education
+BFA Fine Arts: Graphic Design, 2007
+Savannah College of Art and Design
+
+----
+references (ready on second page, not included)

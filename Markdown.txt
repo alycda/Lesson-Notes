@@ -1,0 +1,34 @@
+A First Level Header
+====================
+
+A Second Level Header
+---------------------
+
+### Header 3 ###
+
+#### Header 4 ####
+
+##### Header 5 #####
+ 
+###### Header 6 ######
+
+> this is a blockquote
+>
+> this is another paragraph
+>
+> ## H2 within a blockquote
+
+*	bullet
++	bullet
+- 	bullet
+
+* * *	horizontal rule
+***	horizontal rule
+*****	horizontal rule
+- - -	horizontal rule
+-----	horizontal rule
+
+| This	|   is 	|   a 	|  table |
+----------------------------------
+|	|	|	|	|
+|	|	|	|	|

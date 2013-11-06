@@ -1,0 +1,59 @@
+RewriteLog /usr/local/pem/vhosts/283073/webspace/httpdocs/logs/rewrite_log
+RewriteLogLevel 9
+
+RewriteRule can only apply to REQUEST_URI
+
+
+RewriteRule pattern target [flags]
+	if they request the pattern, send them to the target instead
+
+[PT]	[passthrough]	hands it back to the url mapping phase, treated as though it was the original request
+
+RewriteCond test_string pattern [flags]
+	can check the value of any variable and make the rewrite conditional on that
+	test string can be env vars, headers or literal expression
+	back references become %1, %2, etc
+
+Virtual Hosts
+
+RewriteEngine On
+RewriteCond %{HTTP_HOST} (.*)\.example\.com [NC]
+RewriteRule (.*) /home/%1/www$1
+
+hostname is %1
+requested path is $1, includes leading slash
+
+force PHP when there is no file extension
+RewriteEngine On
+RewriteRule !\. - [H=application/x-httpd-php]
+
+!\.				doesn't contain a dot
+-				DON'T REWRITE IT
+[H=application/x-httpd-php]	php handler
+
+
+
+-----mod_negotiation-----
+<If>		makes much of mod_rewrite unnecessary
+http://httpd.apache.org/docs/trunk/mod/core.html#if
+
+<If "$req{Host} = 'domain.com'">
+
+variable can be in $req, $resp, or $env
+
+http://www.cheatography.com/davechild/cheat-sheets/mod-rewrite/
+
+http://rewrite.drbacchus.com
+http://people.apache.org/~rbowen
+
+http://www.widexl.com/tutorials/mod_rewrite.html
+http://www.askapache.com/htaccess/mod_rewrite-variables-cheatsheet.html
+
+-----mod_substitue-----
+-----mod_ext_filter-----
+-----mod_proxy_html-----
+-----mod_line_edit-----
+
+http://martinmelin.se/rewrite-rule-tester/
+
+http://www.amazon.com/gp/product/1590595610?ie=UTF8&tag=marsrewrultes-20&link_code=as3&camp=211189&creative=373489&creativeASIN=1590595610

@@ -1,0 +1,178 @@
+jQuery
+======
+
+[tuts+](https://tutsplus.com/course/30-days-to-learn-jquery/)
+
+Referencing
+-----------
+jQuery(selector);
+
+$(selector);
+
+
+DOM Ready
+---------
+DOM is loaded from top to bottom, if script is placed above HTML (within the head) must use:
+
+    $(document).ready(function(){
+	// place all selectors here
+    });
+
+**OR (shorthand)**
+
+    $(function(){
+	// place all selectors here
+    })
+
+otherwise, place at bottom of document
+
+
+Querying the DOM
+----------------
+* ### .children() ###
+look for direct/immediate children of the parent (not all descendants)
+
+**CSS equivalent**: `selector > selector`
+
+* ### .find() ###
+continue searching, beyond direct/immediate children (include all descendants)
+
+* ### .first() ###
+**CSS equiv**: `selector::first`
+
+* ### .eq() ###
+**CSS**: `selector::nth-child(#)`
+don't forget that JS is zero-based (so 2 is 3)
+
+* ### .siblings() ###
+other elements on the same level
+
+* ### .next(), .previous() ###
+traverse siblings
+
+* ### .parent() ###
+look for direct/immediate parent of the selector (not all parents)
+
+* ### .parents() ###
+continue searching, beyond direct/immediate parent (include all parents)
+
+* ### .closest() ###
+get the first element that matches the current selector, beginning at the current element and processing up through the DOM tree. Returns first element it finds, and stops, as opposed to parents which returns ALL matching elements. also, class we want could be on the current element itself (lazy vs greedy)
+
+
+* ### .filter() ###
+
+* ### .eq() ###
+
+
+The above is necessary when you don't have a simple selector and must calculate at real-time which object you want to work with. Otherwise, use simple CSS.
+
+
+Events
+------
+all point to .on('event', function(){});
+
+* ### .click() ###
+
+* ### .click() ###
+
+* ### .click() ###
+
+* ### .click() ###
+
+* ### .click() ###
+
+`$(this)` refers to target that emitted event, not event itself
+
+save jquery result to a var as often as possible, improves optimization b/c jQuery isn't searching every time for the same object (cached)
+
+
+Event Delegation
+----------------
+try to attach event listener to parent, rather than multiple instances of the same item
+(if elements are added to dom, they won't receive the event)
+
+
+
+methods
+-------
+* ### .hide() ###
+* ### .show() ###
+* ### .toggle() ###
+* ### .slideUp() ###
+* ### .slideDown() ###
+* ### .slideToggle() ###
+* ### .fadeToggle() ###
+* ### .append() ###
+* ### .appendTo() ###
+when you call on an item that already exists, will perform a move
+
+* ### .prepend() ###
+* ### .prependTo() ###
+* ### .before() ###
+* ### .after() ###
+* ### .insertAfter() ###
+* ### .insertBefore() ###
+* ### .first() ###
+* ### .clone() ###
+* ### .each() ###
+set method to true, clones events attached to element
+
+* ### .is() ###
+
+---------------------
+
+.bind = on(''…)
+
+**.live()** = attaches one event handler to the document (now deprecated)
+
+.delegate('selector', event(){}) (now deprecated)
+.undelegate('selector', event(){}) (now deprecated)
+
+
+---------------------
+
+$('<h2></h2>', {
+  text: 'Hello World',
+  class: 'class'
+}).insertAfter('body');
+
+
+---------------------
+
+.call() comma-separated list
+.apply() array
+.proxy()
+
+
+effects
+-------
+
+###speeds###
++ milliseconds
++ helper values (slow|fast)
++ $.fx.speeds.tortoise = 5000;
+
+###methods###
++ `$.fn.flash = function(speed, easing, callback){  };`
+
+---------------------
+
+---------------------
+
+
+
+
+Best Practices
+--------------
+
++ Don't use multiple var statements
++ chain statements, use `.end()` where necessary
+
+
+
+> this is a blockquote
+>
+> this is another paragraph
+>
+> ## H2 within a blockquote
