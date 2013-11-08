@@ -1,10 +1,14 @@
+[MySQL](http://www.lynda.com/course20/MySQL-tutorials/)
+=====
+
 what is MySQL?
 database management system (not an application)
 --database server, manages CRUD operations
 --client libraries (in order to interact with server)
 
-MySQL is located at:
-/usr/local/Cellar/mysql/5.5.25
+MySQL is located at: 
+`$ which mysql`:
+/usr/local/bin/mysql
 
 ###Start MySQL
 mysql.server start | stop
@@ -25,18 +29,23 @@ You may also need to edit the plist to use the correct "UserName".
 To start mysqld at boot time you have to copy
 support-files/mysql.server to the right place for your system
 
-###Log in
-mysql -u web -p		optional: add database_name to command to auto-select that database
+### Root user(s)
+there may be 2 root users (or more):
 
-admin:^73#2Mh.F
-web:{88e}=4aM
+`$ mysql -uroot`
+`mysql> UPDATE mysql.user SET Password = PASSWORD('foo.bar') WHERE User = 'root';`
+`FLUSH PRIVILEGES; exit`
+
+###Log in
+`$ mysql -u <username> -p`		optional: add database_name to command to auto-select that database
 
 ###Create Users
-CREATE USER 'user'@'hostname' identified by 'password';
+
+CREATE USER user@hostname identified by 'password';
+// you should specify the hash value of the password, not plaintext
 
 #Grant Privileges
 GRANT SELECT, INSERT, UPDATE, DELETE, CREATE, DROP, FILE, INDEX, ALTER, CREATE TEMPORARY TABLES, CREATE VIEW, SHOW VIEW, CREATE ROUTINE, ALTER ROUTINE, EXECUTE ON *.* TO web@localhost;
---or--
 GRANT ALL ON *.* TO admin@localhost WITH GRANT OPTION;
 
 FLUSH PRIVILEGES;
@@ -106,7 +115,7 @@ Bit values (logical values & flags)
 
 no boolean type in MySQL
 bool is alias for tinyint
-true:0
+true:1
 false:0
 bit is excellent for boolean values
 
